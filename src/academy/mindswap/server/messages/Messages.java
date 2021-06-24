@@ -2,6 +2,7 @@ package academy.mindswap.server.messages;
 
 public class Messages {
 
+
     public static final String OPENING_MESSAGE = "Welcome to MindSwap Evolution!";
     public static final String ENTER_NAME = "Please type in what your parents called you when you were born: ";
     public static final String WELCOME = "Welcome, %s";
@@ -61,5 +62,6 @@ public class Messages {
             You're overwhelmed with joy!""";
     public static final String GAME_OVER = "Yeahhhhhhhh, you lost. Go back down. GAME OVER!";
     public static final String RESTART_GAME = "Restart game? (YES/NO)";
+
 
 }
