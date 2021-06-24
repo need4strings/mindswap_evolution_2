@@ -2,6 +2,7 @@ package academy.mindswap.server;
 
 import academy.mindswap.server.messages.Messages;
 import academy.mindswap.server.commands.Command;
+import academy.mindswap.utils.Utils;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -24,24 +25,24 @@ public class Server {
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         service = Executors.newCachedThreadPool();
-        int numberOfConnections = 0;
         String name = null;
 
 
         while (true) {
-            acceptConnection(numberOfConnections, name);
-            ++numberOfConnections;
+            //playerConnectionHandler.send(Messages.ENTER_NAME);
+            acceptConnection(name);
         }
     }
 
-    private void acceptConnection(int numberOfConnections, String name) throws IOException {
+    private void acceptConnection(String name) throws IOException {
         Socket clientSocket = serverSocket.accept();
-        service.submit(new PlayerConnectionHandler(clientSocket, name));
+        service.submit(new PlayerConnectionHandler(clientSocket, Messages.ENTER_NAME));
     }
 
-    private synchronized void addClient(PlayerConnectionHandler playerConnectionHandler) {
+    private synchronized void addClient(PlayerConnectionHandler playerConnectionHandler) throws IOException {
         players.add(playerConnectionHandler);
         playerConnectionHandler.send(Messages.OPENING_MESSAGE);
+        playerConnectionHandler.readPlayerInput();
         broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
     }
 
@@ -61,6 +62,7 @@ public class Server {
         players.remove(playerConnectionHandler);
     }
 
+
     public class PlayerConnectionHandler implements Runnable {
 
         private String name;
@@ -74,9 +76,18 @@ public class Server {
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         }
 
+        public void readPlayerInput() throws IOException {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String x = reader.readLine();
+        }
+
         @Override
         public void run() {
-            addClient(this);
+            try {
+                addClient(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
