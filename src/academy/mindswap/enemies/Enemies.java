@@ -1,6 +1,6 @@
 package academy.mindswap.enemies;
 
-public class Enemies {
+public abstract class Enemies {
 
     private int healthPoints;
     private int attackPower;

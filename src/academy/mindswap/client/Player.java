@@ -41,6 +41,7 @@ public class Player {
         private int attackPower;
         private String ratName;
 
+        //METHODS
         public rat(String ratName) {
             this.ratName = ratName;
         }
