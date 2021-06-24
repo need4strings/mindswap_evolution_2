@@ -1,6 +1,7 @@
 package academy.mindswap.server;
 
 import academy.mindswap.server.messages.Messages;
+import academy.mindswap.server.commands.Command;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -41,7 +42,7 @@ public class Server {
     private synchronized void addClient(PlayerConnectionHandler playerConnectionHandler) {
         players.add(playerConnectionHandler);
         playerConnectionHandler.send(Messages.OPENING_MESSAGE);
-        broadcast(playerConnectionHandler.getName(), Messages.CLIENT_ENTERED_CHAT);
+        broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
     }
 
     public synchronized void broadcast(String name, String message) {
@@ -50,8 +51,15 @@ public class Server {
                 .forEach(handler -> handler.send(name + ": " + message));
     }
 
+    public synchronized String listClients() {
+        StringBuffer buffer = new StringBuffer();
+        players.forEach(player -> buffer.append(player.getName()).append("\n"));
+        return buffer.toString();
+    }
 
-
+    public void removePlayer(PlayerConnectionHandler playerConnectionHandler) {
+        players.remove(playerConnectionHandler);
+    }
 
     public class PlayerConnectionHandler implements Runnable {
 
@@ -100,7 +108,7 @@ public class Server {
             Command command = Command.getCommandFromDescription(description);
 
             if (command == null) {
-                out.write(Messages.NO_SUCH_COMMAND);
+                out.write(Messages.INVALID_COMMAND);
                 out.newLine();
                 out.flush();
                 return;
