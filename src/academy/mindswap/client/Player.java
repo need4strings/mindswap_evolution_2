@@ -8,6 +8,7 @@ public class Player {
     private int specialChance;
     private String name;
     private boolean isDead;
+    private boolean acceptedOffer;
 
     // METHODS
 
@@ -21,6 +22,7 @@ public class Player {
         this.specialChance = 20;
         this.name = name;
         this.isDead = false;
+        this.acceptedOffer = false;
     }
 
     public void attack() {
@@ -48,5 +50,11 @@ public class Player {
 
     }
 
+    public void setAcceptedOffer() {
+        this.acceptedOffer = true;
+    }
 
+    public boolean getAcceptedOffer() {
+        return this.acceptedOffer;
+    }
 }
