@@ -4,11 +4,11 @@ public class Messages {
 
     public static final String OPENING_MESSAGE = "Welcome to MindSwap Evolution!";
     public static final String ENTER_NAME = "Please type in what your parents called you when you were born: ";
-    public static final String WELCOME = "Welcome, %s";
+    public static final String WELCOME = "Welcome, ";
     public static final String INVALID_NAME = "The name you entered is invalid!";
     public static final String INVALID_COMMAND = "⚠ Invalid Command ⚠";
     public static final String WAITING_FOR_PLAYERS = "Please wait for more players to join";
-    public static final String PLAYER_JOINED = "Player %s joined the game!";
+    public static final String PLAYER_JOINED = "Hello! I joined your game!";
     public static final String BEGIN = "Let's start your journey";
     public static final String MINDERA_CALL = "You get a call from Mindera offering you an internship. They don't have" +
             " space for you up on the main floor, you have to start from the bottom. They offer you a small broom closet" +

@@ -17,6 +17,8 @@ public class Server {
     private ServerSocket serverSocket;
     private ExecutorService service;
     private final List<PlayerConnectionHandler> players;
+    private BufferedWriter out;
+    private int connectionCounter = 0;
 
     public Server() {
         players = new LinkedList<>();
@@ -27,22 +29,48 @@ public class Server {
         service = Executors.newCachedThreadPool();
         String name = null;
 
-
-        while (true) {
+        while (players.size() < 1) {
             //playerConnectionHandler.send(Messages.ENTER_NAME);
-            acceptConnection(name);
+            acceptConnection();
         }
     }
 
-    private void acceptConnection(String name) throws IOException {
-        Socket clientSocket = serverSocket.accept();
-        service.submit(new PlayerConnectionHandler(clientSocket, Messages.ENTER_NAME));
+    private void acceptConnection() throws IOException {
+        while(players.size() < 1) {
+            Socket clientSocket = serverSocket.accept();
+            this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            send(Messages.OPENING_MESSAGE);
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            send(Messages.ENTER_NAME);
+            String name = in.readLine();
+            send(Messages.WELCOME + name);
+            PlayerConnectionHandler playerConnectionHandler = new PlayerConnectionHandler(clientSocket, name);
+            service.submit(playerConnectionHandler);
+            send(Messages.WAITING_FOR_PLAYERS);
+        }
+
+        connectionCounter++;
+
+        beginGame();
+    }
+
+    public void beginGame() {
+
+        broadcast(Messages.BEGIN);
+    }
+
+    public void send(String message) {
+        try {
+            out.write(message);
+            out.newLine();
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private synchronized void addClient(PlayerConnectionHandler playerConnectionHandler) throws IOException {
         players.add(playerConnectionHandler);
-        playerConnectionHandler.send(Messages.OPENING_MESSAGE);
-        playerConnectionHandler.readPlayerInput();
         broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
     }
 
@@ -50,6 +78,16 @@ public class Server {
         players.stream()
                 .filter(handler -> !handler.getName().equals(name))
                 .forEach(handler -> handler.send(name + ": " + message));
+        System.out.println("PLAYERS 2: " + players);
+    }
+
+    public synchronized void broadcast(String message) {
+        if (players.size() == 1) {
+            System.out.println("HELLO");
+            System.out.println("PLAYERS" + players);
+            players.stream()
+                    .forEach(handler -> handler.send(message));
+        }
     }
 
     public synchronized String listClients() {
@@ -73,6 +111,7 @@ public class Server {
         public PlayerConnectionHandler(Socket clientSocket, String name) throws IOException {
             this.clientSocket = clientSocket;
             this.name = name;
+            System.out.println(name);
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         }
 
