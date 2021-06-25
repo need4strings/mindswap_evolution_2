@@ -175,7 +175,7 @@ public class Server {
                 return;
             }
 
-            command.getHandler().execute(Server.this, this, player, game);
+            command.getHandler().execute(Server.this, this, player, game, players);
         }
 
         public void send(String message) {

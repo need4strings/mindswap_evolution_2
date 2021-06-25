@@ -44,7 +44,7 @@ public class Game {
 
     }
 
-    public void storyLineHandler(String command, Server.PlayerConnectionHandler clientConnectionHandler) {
+    public void storyLineHandler(String command, Server.PlayerConnectionHandler clientConnectionHandler, List<Server.PlayerConnectionHandler> players) {
         boolean playerAccepted = player.getAcceptedOffer();
         System.out.println(playerAccepted);
 
