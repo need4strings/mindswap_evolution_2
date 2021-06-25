@@ -125,7 +125,7 @@ public class Server {
                 e.printStackTrace();
             }*/
             try {
-                Player player = new Player(name);
+                Player player = new Player(name, out);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 while (!clientSocket.isClosed()) {
