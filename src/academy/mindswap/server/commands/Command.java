@@ -4,9 +4,9 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.util.concurrent.Executor;
 
 public enum Command {
-    ATTACK("attack", new AttackHandler()),
-    ITEM("item", new ItemHandler()),
-    RAT("rat", new RatAttackHandler()),
+    ATTACK("/attack", new AttackHandler()),
+    ITEM("/item", new ItemHandler()),
+    RAT("/rat", new RatAttackHandler()),
     LIST("/list", new ListHandler()),
     QUIT("/quit", new QuitHandler());
 

@@ -9,12 +9,12 @@ public class PlayerLauncher {
         PlayerLauncher playerLauncher = new PlayerLauncher();
         try{
             playerLauncher.start("localhost", 8080);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println("Connection closed...");
         }
     }
 
-    private void start(String host, int port) throws IOException {
+    private void start(String host, int port) throws IOException, InterruptedException {
         Socket socket = new Socket(host, port);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -29,6 +29,14 @@ public class PlayerLauncher {
                 continue;
             }
 
+            /*char[] chars = line.toCharArray();
+
+            // Print a char from the array, then sleep for 1/10 second
+            for (int i = 0; i < chars.length; i++) {
+                System.out.print(chars[i]);
+                //out.newLine();
+                Thread.sleep(20);
+            }*/
             System.out.println(line);
         }
     }

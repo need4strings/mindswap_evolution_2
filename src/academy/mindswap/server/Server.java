@@ -1,8 +1,8 @@
 package academy.mindswap.server;
 
-import academy.mindswap.server.messages.Messages;
+import academy.mindswap.client.Player;
 import academy.mindswap.server.commands.Command;
-import academy.mindswap.utils.Utils;
+import academy.mindswap.server.messages.Messages;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -29,34 +29,39 @@ public class Server {
         service = Executors.newCachedThreadPool();
         String name = null;
 
-        while (players.size() < 1) {
+        while (players.size() < 2) {
             //playerConnectionHandler.send(Messages.ENTER_NAME);
             acceptConnection();
         }
     }
 
     private void acceptConnection() throws IOException {
-        while(players.size() < 1) {
+        while(players.size() < 2) {
             Socket clientSocket = serverSocket.accept();
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             send(Messages.OPENING_MESSAGE);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             send(Messages.ENTER_NAME);
             String name = in.readLine();
             send(Messages.WELCOME + name);
             PlayerConnectionHandler playerConnectionHandler = new PlayerConnectionHandler(clientSocket, name);
             service.submit(playerConnectionHandler);
-            send(Messages.WAITING_FOR_PLAYERS);
+            players.add(playerConnectionHandler);
+            if (players.size() < 2) {
+                send(Messages.WAITING_FOR_PLAYERS);
+            } else {
+                beginGame(in, playerConnectionHandler);
+            }
+            broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
         }
 
         connectionCounter++;
-
-        beginGame();
     }
 
-    public void beginGame() {
+    public void beginGame(BufferedReader in, PlayerConnectionHandler playerConnectionHandler) {
 
         broadcast(Messages.BEGIN);
+        broadcast(Messages.MINDERA_CALL);
     }
 
     public void send(String message) {
@@ -69,22 +74,19 @@ public class Server {
         }
     }
 
-    private synchronized void addClient(PlayerConnectionHandler playerConnectionHandler) throws IOException {
+    /*private synchronized void addClient(PlayerConnectionHandler playerConnectionHandler) throws IOException {
         players.add(playerConnectionHandler);
         broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
-    }
+    }*/
 
     public synchronized void broadcast(String name, String message) {
         players.stream()
                 .filter(handler -> !handler.getName().equals(name))
                 .forEach(handler -> handler.send(name + ": " + message));
-        System.out.println("PLAYERS 2: " + players);
     }
 
     public synchronized void broadcast(String message) {
-        if (players.size() == 1) {
-            System.out.println("HELLO");
-            System.out.println("PLAYERS" + players);
+        if (players.size() == 2) {
             players.stream()
                     .forEach(handler -> handler.send(message));
         }
@@ -115,23 +117,20 @@ public class Server {
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
         }
 
-        public void readPlayerInput() throws IOException {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String x = reader.readLine();
-        }
-
         @Override
         public void run() {
-            try {
+            /*try {
                 addClient(this);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             try {
+                Player player = new Player(name);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 while (!clientSocket.isClosed()) {
                     message = in.readLine();
+                    System.out.println("MESSAGE: " + message);
 
                     if (isCommand(message)) {
                         dealWithCommand(message);
@@ -156,6 +155,7 @@ public class Server {
         private void dealWithCommand(String message) throws IOException {
             String description = message.split(" ")[0];
             Command command = Command.getCommandFromDescription(description);
+            System.out.println("COMMAND: " + command);
 
             if (command == null) {
                 out.write(Messages.INVALID_COMMAND);

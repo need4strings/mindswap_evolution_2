@@ -2,17 +2,17 @@ package academy.mindswap.server.messages;
 
 public class Messages {
 
-    public static final String OPENING_MESSAGE = "Welcome to MindSwap Evolution!";
-    public static final String ENTER_NAME = "Please type in what your parents called you when you were born: ";
+    public static final String OPENING_MESSAGE = "Welcome to MindSwap Evolution! \n";
+    public static final String ENTER_NAME = "Please type in what your parents called you when you were born: \n";
     public static final String WELCOME = "Welcome, ";
     public static final String INVALID_NAME = "The name you entered is invalid!";
     public static final String INVALID_COMMAND = "⚠ Invalid Command ⚠";
     public static final String WAITING_FOR_PLAYERS = "Please wait for more players to join";
     public static final String PLAYER_JOINED = "Hello! I joined your game!";
     public static final String BEGIN = "Let's start your journey";
-    public static final String MINDERA_CALL = "You get a call from Mindera offering you an internship. They don't have" +
-            " space for you up on the main floor, you have to start from the bottom. They offer you a small broom closet" +
-            " in the basement. Do you accept? (YES/NO)";
+    public static final String MINDERA_CALL = "You get a call from Mindera offering you an internship. They don't have \n" +
+            " space for you up on the main floor, you have to start from the bottom. They offer you a small broom closet \n" +
+            " in the basement. Do you accept? (/yes | /no)";
     public static final String YOU_SURE = "Are you sure?";
     public static final String YOU_REALLY_SURE = "Are you really sure?";
     public static final String YOU_REALLY_REALLY_SURE = "Are you really really sure?";
@@ -23,7 +23,7 @@ public class Messages {
             "your mascot. You name the rat: (Minder/Ratelho de esgoto)";
     public static final String WELCOME_RAT = "Great! You and %s have a new mascot named %s";
     public static final String TAKE_BREAK = "You decide to take a break from your hard work making spaguetti code. You " +
-            "step outside in the alley and you spot an elevator. Do you go in? (YES/YES)";
+            "step outside in the alley and you spot an elevator. Do you go in? (/yes | /yes)";
     public static final String GREAT_CHOICE = "Great choice!";
     public static final String ENTER_ELEVATOR_1 = "You enter the elevator and it suddenly starts going up. It reaches the " +
             "ground floor and the doors open. Who's on the other side?... \n MINDSCHOOLERS!";
@@ -34,7 +34,7 @@ public class Messages {
     public static final String DRINK_BEER = "It's friday so you drink a beer over your defeated enemies.";
     public static final String HP_FULL = "Your HP is restored!";
     public static final String ENTER_ELEVATOR_2 = "You go back in the elevator and start going up again. It reaches another floor" +
-            " and the doors open again. Are you scared? (YES/YES)";
+            " and the doors open again. Are you scared? (/yes | /yes)";
     public static final String TERESA_APPEARS = """
             Of couse you are dear noob :(
             %s is on the other side of the elevator doors!
@@ -62,7 +62,7 @@ public class Messages {
             Diogo welcomes you and hands you a beer.
             You're overwhelmed with joy!""";
     public static final String GAME_OVER = "Yeahhhhhhhh, you lost. Go back down. GAME OVER!";
-    public static final String RESTART_GAME = "Restart game? (YES/NO)";
+    public static final String RESTART_GAME = "Restart game? (/yes | /no)";
     public static final String CLIENT_ERROR = "Something went wrong with this client's connection. Error: ";
     public static final String PLAYER_QUIT = "Player %s left the game!";
 
