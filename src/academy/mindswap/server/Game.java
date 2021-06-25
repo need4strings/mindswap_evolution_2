@@ -51,6 +51,8 @@ public class Game {
         switch (command) {
             case "yes":
                 clientConnectionHandler.send(Messages.ARRIVE_MINDERA);
+                clientConnectionHandler.send(Messages.MEET_RAT);
+                Player.Rat rat = new Player.Rat("Minder");
                 break;
             default:
                 clientConnectionHandler.send("COSPE-ME NA BOCA");

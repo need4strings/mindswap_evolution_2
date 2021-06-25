@@ -20,7 +20,7 @@ public class Messages {
     public static final String ARRIVE_MINDERA = "You arrive at Mindera's headquarters and they show you your 'office' " +
             "it's a super cramped space and you're always bumping elbows with %s";
     public static final String MEET_RAT = "The room is super dirty and you even find a mouse that you decide to make " +
-            "your mascot. You name the rat: (Minder/Ratelho de esgoto)";
+            "your mascot. You named him Minder!";
     public static final String WELCOME_RAT = "Great! You and %s have a new mascot named %s";
     public static final String TAKE_BREAK = "You decide to take a break from your hard work making spaguetti code. You " +
             "step outside in the alley and you spot an elevator. Do you go in? (/yes | /yes)";

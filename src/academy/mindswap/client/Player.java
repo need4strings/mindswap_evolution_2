@@ -106,7 +106,7 @@ public class Player {
     }
 
 
-    public class Rat {
+    public static class Rat {
 
         // PROPERTIES
         private int ratAttackPower;
