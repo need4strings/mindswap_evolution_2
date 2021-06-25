@@ -14,6 +14,7 @@ public class Player {
     private int specialChance;
     private String name;
     private boolean isDead;
+    private boolean acceptedOffer;
     Rat rat = new Rat("minder"); // toDo set rat name when asked during storyline
     private BufferedWriter out;
 
@@ -30,6 +31,7 @@ public class Player {
         this.name = name;
         this.isDead = false;
         this.out = out;
+        this.acceptedOffer = false;
     }
 
     public int attack() {
@@ -75,7 +77,7 @@ public class Player {
     }
 
     public int callRat() {
-        return rat.ratAttackPower;
+        return rat.getRatAttackPower();
     }
 
     public void suffer(int damage) throws IOException {
@@ -88,6 +90,21 @@ public class Player {
         out.write(name + " have " + healthPoints + " healthpoints remaining!");
         //toDo print healthpoints remaining
     }
+
+    public void setAcceptedOffer() {
+
+        acceptedOffer = true;
+    } // toDo this
+
+
+    public boolean getAcceptedOffer() {
+        return acceptedOffer;
+    } // toDo this
+
+    public void setHealthPoints(int healthPoints) {
+        this.healthPoints = healthPoints;
+    }
+
 
     public class Rat {
 
@@ -111,9 +128,5 @@ public class Player {
         public void setRatName(String ratName) {
             this.ratName = ratName;
         }
-    }
-
-    public void setHealthPoints(int healthPoints) {
-        this.healthPoints = healthPoints;
     }
 }

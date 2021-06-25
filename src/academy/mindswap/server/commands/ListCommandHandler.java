@@ -4,10 +4,10 @@ import academy.mindswap.client.Player;
 import academy.mindswap.server.Game;
 import academy.mindswap.server.Server;
 
-public class AttackHandler implements CommandHandler {
+public class ListCommandHandler implements CommandHandler{
 
     @Override
     public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Player player, Game game) {
-        //call player attack method
+        clientConnectionHandler.send(server.listCommands());
     }
 }

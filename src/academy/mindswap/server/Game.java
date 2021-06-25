@@ -1,5 +1,6 @@
 package academy.mindswap.server;
 
+import academy.mindswap.client.Player;
 import academy.mindswap.server.messages.Messages;
 
 import java.io.BufferedWriter;
@@ -15,14 +16,20 @@ import java.util.concurrent.Executors;
 public class Game {
 
     private BufferedWriter out;
+    private Server server;
+    private Server.PlayerConnectionHandler playerConnectionHandler;
+    private Player player;
 
-    public Game() {
-
+    public Game(Server.PlayerConnectionHandler playerConnectionHandler, Server server, Player player) {
+        this.server = server;
+        this.playerConnectionHandler = playerConnectionHandler;
+        this.player = player;
     }
 
     public void start() {
 
-        storyLineHandler();
+        server.broadcast(Messages.BEGIN);
+        server.broadcast(Messages.MINDERA_CALL);
 
     }
 
@@ -37,14 +44,16 @@ public class Game {
 
     }
 
-    public void storyLineHandler() {
-        System.out.println("HELLO");
-        try {
-            out.write(Messages.OPENING_MESSAGE);
-            out.newLine();
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void storyLineHandler(String command, Server.PlayerConnectionHandler clientConnectionHandler) {
+        boolean playerAccepted = player.getAcceptedOffer();
+        System.out.println(playerAccepted);
+
+        switch (command) {
+            case "yes":
+                clientConnectionHandler.send(Messages.ARRIVE_MINDERA);
+                break;
+            default:
+                clientConnectionHandler.send("COSPE-ME NA BOCA");
         }
     }
 }

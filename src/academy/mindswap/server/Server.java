@@ -7,6 +7,7 @@ import academy.mindswap.server.messages.Messages;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -19,6 +20,7 @@ public class Server {
     private final List<PlayerConnectionHandler> players;
     private BufferedWriter out;
     private int connectionCounter = 0;
+    private Game game;
 
     public Server() {
         players = new LinkedList<>();
@@ -50,7 +52,7 @@ public class Server {
             if (players.size() < 2) {
                 send(Messages.WAITING_FOR_PLAYERS);
             } else {
-                beginGame(in, playerConnectionHandler);
+                beginGame(playerConnectionHandler);
             }
             broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
         }
@@ -58,10 +60,10 @@ public class Server {
         connectionCounter++;
     }
 
-    public void beginGame(BufferedReader in, PlayerConnectionHandler playerConnectionHandler) {
+    public void beginGame(PlayerConnectionHandler playerConnectionHandler) {
 
-        broadcast(Messages.BEGIN);
-        broadcast(Messages.MINDERA_CALL);
+        game = new Game(playerConnectionHandler, this, playerConnectionHandler.player);
+        game.start();
     }
 
     public void send(String message) {
@@ -98,10 +100,19 @@ public class Server {
         return buffer.toString();
     }
 
+    public synchronized String listCommands() {
+        StringBuffer buffer = new StringBuffer();
+        ArrayList<String> commands = Command.getAllCommands();
+        String commandList = "";
+        for (String s : commands) {
+            commandList += s + "\n";
+        }
+        return commandList;
+    }
+
     public void removePlayer(PlayerConnectionHandler playerConnectionHandler) {
         players.remove(playerConnectionHandler);
     }
-
 
     public class PlayerConnectionHandler implements Runnable {
 
@@ -109,12 +120,14 @@ public class Server {
         private Socket clientSocket;
         private BufferedWriter out;
         private String message;
+        private Player player;
 
         public PlayerConnectionHandler(Socket clientSocket, String name) throws IOException {
             this.clientSocket = clientSocket;
             this.name = name;
             System.out.println(name);
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            this.player = new Player(name, out);
         }
 
         @Override
@@ -125,7 +138,6 @@ public class Server {
                 e.printStackTrace();
             }*/
             try {
-                Player player = new Player(name, out);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 while (!clientSocket.isClosed()) {
@@ -155,7 +167,6 @@ public class Server {
         private void dealWithCommand(String message) throws IOException {
             String description = message.split(" ")[0];
             Command command = Command.getCommandFromDescription(description);
-            System.out.println("COMMAND: " + command);
 
             if (command == null) {
                 out.write(Messages.INVALID_COMMAND);
@@ -164,7 +175,7 @@ public class Server {
                 return;
             }
 
-            command.getHandler().execute(Server.this, this);
+            command.getHandler().execute(Server.this, this, player, game);
         }
 
         public void send(String message) {
