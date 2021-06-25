@@ -26,6 +26,11 @@ public class Server {
         players = new LinkedList<>();
     }
 
+    /**
+     * Start - starts the server
+     * @param port -> the port in which the server will be ran
+     * @throws IOException
+     */
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         service = Executors.newCachedThreadPool();
@@ -37,6 +42,10 @@ public class Server {
         }
     }
 
+    /**
+     * Accept Connection - accepts connections and waits for at least 2.
+     * @throws IOException
+     */
     private void acceptConnection() throws IOException {
         while(players.size() < 2) {
             Socket clientSocket = serverSocket.accept();
@@ -60,12 +69,20 @@ public class Server {
         connectionCounter++;
     }
 
+    /**
+     * Begin Game - instantiates game class and starts it
+     * @param playerConnectionHandler -> Current player's connection
+     */
     public void beginGame(PlayerConnectionHandler playerConnectionHandler) {
 
         game = new Game(playerConnectionHandler, this, playerConnectionHandler.player);
         game.start();
     }
 
+    /**
+     * Send - Sends a message
+     * @param message -> the message to be sent
+     */
     public void send(String message) {
         try {
             out.write(message);
@@ -81,6 +98,11 @@ public class Server {
         broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
     }*/
 
+    /**
+     * Broadcast - broadcasts a message to the player other than the current one
+     * @param name -> the name of the current player
+     * @param message -> the message to be broadcast
+     */
     public synchronized void broadcast(String name, String message) {
         players.stream()
                 .filter(handler -> !handler.getName().equals(name))
@@ -94,12 +116,20 @@ public class Server {
         }
     }
 
+    /**
+     * List Clients - list the name of the players currently in the game
+     * @return -> the list of players currently in the game
+     */
     public synchronized String listClients() {
         StringBuffer buffer = new StringBuffer();
         players.forEach(player -> buffer.append(player.getName()).append("\n"));
         return buffer.toString();
     }
 
+    /**
+     * List Commands - lists the commands available
+     * @return -> the list of commands available to the player
+     */
     public synchronized String listCommands() {
         StringBuffer buffer = new StringBuffer();
         ArrayList<String> commands = Command.getAllCommands();
@@ -110,6 +140,10 @@ public class Server {
         return commandList;
     }
 
+    /**
+     * Remove Player - removes the current player from the game
+     * @param playerConnectionHandler -> the current player's connection
+     */
     public void removePlayer(PlayerConnectionHandler playerConnectionHandler) {
         players.remove(playerConnectionHandler);
     }
@@ -160,10 +194,20 @@ public class Server {
             }
         }
 
+        /**
+         * Is Command - checks if the message received is a command or not
+         * @param message -> the message received
+         * @return -> returns the message if it starts with a "/"
+         */
         private boolean isCommand(String message) {
             return message.startsWith("/");
         }
 
+        /**
+         * Deal With Command - deals with the command that the player entered
+         * @param message -> the command received
+         * @throws IOException
+         */
         private void dealWithCommand(String message) throws IOException {
             String description = message.split(" ")[0];
             Command command = Command.getCommandFromDescription(description);
@@ -178,6 +222,10 @@ public class Server {
             command.getHandler().execute(Server.this, this, player, game, players);
         }
 
+        /**
+         * Send - Sends a message
+         * @param message -> the message to be sent
+         */
         public void send(String message) {
             try {
                 out.write(message);
@@ -188,6 +236,9 @@ public class Server {
             }
         }
 
+        /**
+         * Close - closes the current players connection to the server
+         */
         public void close() {
             try {
                 clientSocket.close();
@@ -196,6 +247,10 @@ public class Server {
             }
         }
 
+        /**
+         * Get name - get the name of the current player
+         * @return - returns the players name
+         */
         public String getName() {
             return name;
         }

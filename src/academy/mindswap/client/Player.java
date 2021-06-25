@@ -23,6 +23,7 @@ public class Player {
     /**
      * Constructor Method
      * @param name - the name that the user typed
+     * @param out - passed in buffered writer
      */
     public Player(String name, BufferedWriter out) {
         this.healthPoints = 10;
@@ -34,6 +35,10 @@ public class Player {
         this.acceptedOffer = false;
     }
 
+    /**
+     * Attack Method - Calculates the power of the attack
+     * @return -> the value to decrement to opponents health
+     */
     public int attack() {
         int chance = Utils.random(1,3);
         int attackValue = attackPower;
@@ -43,6 +48,11 @@ public class Player {
         return attackValue;
     }
 
+    /**
+     * Search Item Method - makes the player look for an item in a fight situation. The item he finds is decided based
+     * on a random number.
+     * @throws IOException
+     */
     public void searchItem() throws IOException {
         int chance = Utils.random(0,10);
         switch(chance) {
@@ -80,6 +90,11 @@ public class Player {
         return rat.getRatAttackPower();
     }
 
+    /**
+     *
+     * @param damage -> the amount of damage the target is going to suffer
+     * @throws IOException
+     */
     public void suffer(int damage) throws IOException {
         if(healthPoints - damage <= 0) {
             setHealthPoints(0);
@@ -91,16 +106,27 @@ public class Player {
         //toDo print healthpoints remaining
     }
 
+    /**
+     * Set Accepted Offer - In case the player accepted the offer, this variable is changed to true
+     */
     public void setAcceptedOffer() {
 
         acceptedOffer = true;
     } // toDo this
 
 
+    /**
+     * Get Accepted Offer - check if the player accepted the offer
+     * @return -> true/false
+     */
     public boolean getAcceptedOffer() {
         return acceptedOffer;
     } // toDo this
 
+    /**
+     * Set Health Points - Sets the health points to the passed in argument
+     * @param healthPoints -> the new health points to be set
+     */
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = healthPoints;
     }
@@ -117,14 +143,26 @@ public class Player {
             this.ratName = ratName;
         }
 
+        /**
+         *
+         * @return -> Rat's attack power
+         */
         public int getRatAttackPower() {
             return ratAttackPower;
         }
 
+        /**
+         *
+         * @return -> Rat's name
+         */
         public String getRatName() {
             return ratName;
         }
 
+        /**
+         *
+         * @param ratName -> The rat name to be set
+         */
         public void setRatName(String ratName) {
             this.ratName = ratName;
         }

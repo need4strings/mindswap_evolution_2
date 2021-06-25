@@ -26,6 +26,9 @@ public class Game {
         this.player = player;
     }
 
+    /**
+     * Start - Starts the opening messages of the game
+     */
     public void start() {
 
         server.broadcast(Messages.BEGIN);
@@ -44,6 +47,12 @@ public class Game {
 
     }
 
+    /**
+     * Story Line Handler - Handles the whole game's story
+     * @param command -> the command the player entered
+     * @param clientConnectionHandler -> the current client's connection
+     * @param players -> all players connected to the server
+     */
     public void storyLineHandler(String command, Server.PlayerConnectionHandler clientConnectionHandler, List<Server.PlayerConnectionHandler> players) {
         boolean playerAccepted = player.getAcceptedOffer();
         System.out.println(playerAccepted);

@@ -22,6 +22,11 @@ public enum Command {
         this.handler = handler;
     }
 
+    /**
+     * Get Command From Description - gets the command the player entered based on its description
+     * @param description -> the command the player entered
+     * @return -> returns the command
+     */
     public static Command getCommandFromDescription(String description) {
         for (Command command : values()) {
             if (description.equals(command.description)) {
@@ -31,6 +36,10 @@ public enum Command {
         return null;
     }
 
+    /**
+     *  Get All Commands - Gets all the commands available
+     * @return -> A list with all the commands available
+     */
     public static ArrayList<String> getAllCommands() {
         ArrayList<String> commandList = new ArrayList<String>();
         for (Command command : values()) {
@@ -40,6 +49,10 @@ public enum Command {
         return commandList;
     }
 
+    /**
+     *
+     * @return -> the command handler
+     */
     public CommandHandler getHandler() {
         return handler;
     }
