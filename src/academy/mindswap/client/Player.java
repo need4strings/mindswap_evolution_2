@@ -75,7 +75,6 @@ public class Player {
     }
 
     public int suffer(int damage) throws IOException {
-        System.out.println("cheguei");
         if(healthPoints - damage <= 0) {
             setHealthPoints(0);
             isDead = true;
@@ -83,10 +82,8 @@ public class Player {
             return 0;
         }
         healthPoints -= damage;
-        System.out.println("cheguei 2");
         server.broadcast(name + " has suffered " + damage + " points of damage and now has " + healthPoints + " healthpoints remaining!");
 
-        System.out.println("chguei 3");
         return healthPoints;
     }
 

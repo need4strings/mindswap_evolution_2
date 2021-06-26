@@ -33,7 +33,7 @@ public class Enemies {
     }
 
     public void suffer(int damage) throws IOException {
-        System.out.println("attack suffer");
+
         if(healthPoints - damage <= 0) {
             System.out.println("Companhia");
             setHealthPoints(0);
@@ -43,8 +43,6 @@ public class Enemies {
         }
 
         healthPoints -= damage;
-        System.out.println("enemie healthpoint" + healthPoints);
-       // out.write(name + " have " + healthPoints + " healthpoints remaining!");
     }
 
     public int getHealthPoints() {
@@ -61,7 +59,6 @@ public class Enemies {
     }
 
     public int getAttackPower() {
-        System.out.println("enemies attackpower");
         return this.attackPower;
     }
 

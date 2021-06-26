@@ -36,8 +36,8 @@ public class Messages {
             " and the doors open again. Are you scared? (/sure | /sure)";
     public static final String TERESA_APPEARS = """
             Of couse you are dear noob :(
-            %s is on the other side of the elevator doors!
-            %s: What are you doing here? You should be in the basement writing buggy code...
+            Teresa is on the other side of the elevator doors!
+            Teresa: What are you doing here? You should be in the basement writing buggy code...
             A FIGHT BREAKS OUT!""";
     public static final String TERESA_WIN = """
             It was hard but you finally beat %s! Congratulations!
