@@ -40,7 +40,7 @@ public class Server {
     }
 
     private void acceptConnection() throws IOException {
-        while(players.size() < 2) {
+        while(true) {
             Socket clientSocket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -59,7 +59,6 @@ public class Server {
             broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
         }
 
-        connectionCounter++;
     }
 
     public void beginGame(PlayerConnectionHandler playerConnectionHandler) {
@@ -204,9 +203,6 @@ public class Server {
             return name;
         }
 
-        public String getMessage() {
-            return message;
-        }
 
         public boolean isDead(){
             return player.isDead();
@@ -223,24 +219,12 @@ public class Server {
             return player.suffer(enemies.getAttackPower());
         }
 
-        public void setAcceptedOffer(){
-            player.setAcceptedOffer();
-        }
-
-        public boolean getAcceptedOffer(){
-            return player.getAcceptedOffer();
-        }
-
         public void setFullHealth(){
             player.setFullHealth();
         }
 
         public Items searchItem() throws IOException {
             return player.searchItem();
-        }
-
-        public BufferedWriter getOut(){
-            return player.getOut();
         }
 
         public Socket getClientSocket(){

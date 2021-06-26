@@ -51,12 +51,13 @@ public class Game {
         BufferedReader in1 = new BufferedReader(new InputStreamReader(player1.getClientSocket().getInputStream()));
         BufferedReader in2 = new BufferedReader(new InputStreamReader(player2.getClientSocket().getInputStream()));
         while (!finished) {
-            String player1Command = in1.readLine();
-            String player2Command = in2.readLine();
+
+
 
             int playerToSuffer = Utils.random(1,2);
 
             if (!player1.isDead() && !enemies.isDead()) {
+                String player1Command = in1.readLine();
                 switch (player1Command) {
                     case "/attack":
                         enemies.suffer(player1.attack());
@@ -77,6 +78,7 @@ public class Game {
                 }
             }
             if (!player2.isDead() && !enemies.isDead()) {
+                String player2Command = in2.readLine();
                 switch (player2Command) {
                     case "/attack":
                         enemies.suffer(player2.attack());
@@ -115,12 +117,8 @@ public class Game {
                 player1.suffer(enemies);
             }
 
-            if(player1.isDead()) {
-                server.broadcast("p1 dead");
-                player1.close();
-            } else if(player2.isDead()){
-                server.broadcast("p2 dead");
-                player2.close();
+            if(player1.isDead() || player2.isDead()) {
+                gameOver();
             }
             server.broadcast(Messages.WHAT_DO);
         }

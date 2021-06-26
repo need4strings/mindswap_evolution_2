@@ -20,25 +20,24 @@ public class PlayerLauncher {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
         new Thread(new KeyboardHandler(out, socket)).start();
+        String line;
 
-        while (!socket.isClosed()) {
-            String line = in.readLine();
+        while ((line = in.readLine()) != null) {
 
-            if (line == null) {
-                socket.close();
-                continue;
-            }
-
-            /*char[] chars = line.toCharArray();
+           /* char[] chars = line.toCharArray();
 
             // Print a char from the array, then sleep for 1/10 second
             for (int i = 0; i < chars.length; i++) {
                 System.out.print(chars[i]);
                 //out.newLine();
-                Thread.sleep(20);
+                Thread.sleep(10);
             }*/
             System.out.println(line);
+            Thread.sleep(2000);
         }
+
+        System.out.println("system down");
+        System.exit(0);
     }
 
     private class KeyboardHandler implements Runnable {

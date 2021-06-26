@@ -11,8 +11,8 @@ public class Messages {
     public static final String PLAYER_JOINED = "Hello! I joined your game!";
     public static final String BEGIN = "Let's start your journey";
     public static final String MINDERA_CALL = "You get a call from Mindera offering you an internship. They don't have \n" +
-            " space for you up on the main floor, you have to start from the bottom. They offer you a small broom closet \n" +
-            " in the basement. Do you accept? (/yes | /no)";
+            "space for you up on the main floor, you have to start from the bottom. They offer you a small broom closet \n" +
+            "in the basement. Do you accept? (/yes | /no)";
     public static final String YOU_SURE = "Are you sure?";
     public static final String YOU_REALLY_SURE = "Are you really sure?";
     public static final String YOU_REALLY_REALLY_SURE = "Are you really really sure?";
@@ -64,6 +64,7 @@ public class Messages {
     public static final String RESTART_GAME = "Restart game? (/yes | /no)";
     public static final String CLIENT_ERROR = "Something went wrong with this client's connection. Error: ";
     public static final String PLAYER_QUIT = "Player %s left the game!";
+    public static final String SPECIAL_ATTACK = "CRITICAL HIT!!";
 
 }
 

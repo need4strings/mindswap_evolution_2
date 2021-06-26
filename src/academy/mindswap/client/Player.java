@@ -2,6 +2,7 @@ package academy.mindswap.client;
 
 import academy.mindswap.items.Items;
 import academy.mindswap.server.Server;
+import academy.mindswap.server.messages.Messages;
 import academy.mindswap.utils.Utils;
 
 import java.io.BufferedWriter;
@@ -41,6 +42,7 @@ public class Player {
         int attackValue = attackPower;
         if(chance == 1) {
             attackValue = specialChance;
+            server.broadcast(Messages.SPECIAL_ATTACK + " by " + this.name + " causing " + specialChance + " points of damage..");
         }
         return attackValue;
     }
@@ -144,5 +146,7 @@ public class Player {
         public void setRatName(String ratName) {
             this.ratName = ratName;
         }
+
+
     }
 }
