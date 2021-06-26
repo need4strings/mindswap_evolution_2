@@ -86,13 +86,13 @@ public class Server {
     public synchronized void broadcast(String name, String message) {
         players.stream()
                 .filter(handler -> !handler.getName().equals(name))
-                .forEach(handler -> handler.send(name + ": " + message));
+                .forEach(handler -> handler.broadcast(name + ": " + message));
     }
 
     public synchronized void broadcast(String message) {
         if (players.size() == 2) {
             players.stream()
-                    .forEach(handler -> handler.send(message));
+                    .forEach(handler -> handler.broadcast(message));
         }
     }
 
@@ -157,7 +157,7 @@ public class Server {
                         return;
                     }
 
-                    broadcast(name, message);
+                    Server.this.broadcast(name, message);
                 }
             } catch (IOException e) {
                 System.err.println(Messages.CLIENT_ERROR + e.getMessage());
@@ -182,7 +182,7 @@ public class Server {
             command.getHandler().execute(Server.this, this, game);
         }
 
-        public void send(String message) {
+        public void broadcast(String message) {
             try {
                 out.write(message);
                 out.newLine();
@@ -216,7 +216,7 @@ public class Server {
             return player.attack();
         }
 
-        public int suffer() throws IOException {
+        public int suffer(Enemies enemies) throws IOException {
             System.out.println("cheguei mas antes");
             int getEnemyAttackPower = enemies.getAttackPower();
             System.out.println("cheguei aquiiiii" + getEnemyAttackPower);

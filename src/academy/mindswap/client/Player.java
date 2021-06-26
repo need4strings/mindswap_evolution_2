@@ -28,7 +28,7 @@ public class Player {
     public Player(String name, BufferedWriter out, Server server) {
         this.healthPoints = 10;
         this.attackPower = 1;
-        this.specialChance = 20;
+        this.specialChance = 2;
         this.name = name;
         this.isDead = false;
         this.out = out;
@@ -84,7 +84,7 @@ public class Player {
         }
         healthPoints -= damage;
         System.out.println("cheguei 2");
-        server.broadcast(name + " have " + healthPoints + " healthpoints remaining!");
+        server.broadcast(name + " has suffered " + damage + " points of damage and now has " + healthPoints + " healthpoints remaining!");
 
         System.out.println("chguei 3");
         return healthPoints;

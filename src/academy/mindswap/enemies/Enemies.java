@@ -5,7 +5,7 @@ import academy.mindswap.utils.Utils;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public abstract class Enemies {
+public class Enemies {
 
     private int healthPoints;
     private int attackPower;
@@ -33,14 +33,18 @@ public abstract class Enemies {
     }
 
     public void suffer(int damage) throws IOException {
+        System.out.println("attack suffer");
         if(healthPoints - damage <= 0) {
+            System.out.println("Companhia");
             setHealthPoints(0);
-            isDead = true;
-            out.write(name + " is dead!");
+            this.isDead = true;
+            System.out.println("is dead " + this.isDead);
             return;
         }
+
         healthPoints -= damage;
-        out.write(name + " have " + healthPoints + " healthpoints remaining!");
+        System.out.println("enemie healthpoint" + healthPoints);
+       // out.write(name + " have " + healthPoints + " healthpoints remaining!");
     }
 
     public int getHealthPoints() {
@@ -52,10 +56,16 @@ public abstract class Enemies {
     }
 
     public boolean isDead() {
+        System.out.println("batatinha");
         return isDead;
     }
 
     public int getAttackPower() {
+        System.out.println("enemies attackpower");
         return this.attackPower;
+    }
+
+    public String getName() {
+        return name;
     }
 }
