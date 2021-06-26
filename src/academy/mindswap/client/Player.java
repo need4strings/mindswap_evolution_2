@@ -1,6 +1,7 @@
 package academy.mindswap.client;
 
 import academy.mindswap.items.Items;
+import academy.mindswap.server.Server;
 import academy.mindswap.utils.Utils;
 
 import java.io.BufferedWriter;
@@ -15,8 +16,8 @@ public class Player {
     private String name;
     private boolean isDead;
     private boolean acceptedOffer;
-    Rat rat = new Rat("minder"); // toDo set rat name when asked during storyline
     private BufferedWriter out;
+    private Server server;
 
     // METHODS
 
@@ -24,7 +25,7 @@ public class Player {
      * Constructor Method
      * @param name - the name that the user typed
      */
-    public Player(String name, BufferedWriter out) {
+    public Player(String name, BufferedWriter out, Server server) {
         this.healthPoints = 10;
         this.attackPower = 1;
         this.specialChance = 20;
@@ -32,6 +33,7 @@ public class Player {
         this.isDead = false;
         this.out = out;
         this.acceptedOffer = false;
+        this.server = server;
     }
 
     public int attack() {
@@ -43,52 +45,57 @@ public class Player {
         return attackValue;
     }
 
-    public void searchItem() throws IOException {
-        int chance = Utils.random(0,10);
-        switch(chance) {
+    public Items searchItem() throws IOException {
+        int chance = Utils.random(0, 10);
+        System.out.println("chance" + chance);
+        switch (chance) {
             case 1:
             case 2:
                 attackPower += Items.ORACLE_DOCUMENTATION_BOOK.getAttackPower();
-                out.write(Items.ORACLE_DOCUMENTATION_BOOK.getDescription()); //toDo
-                break;
+                return Items.ORACLE_DOCUMENTATION_BOOK;
             case 3:
             case 4:
                 attackPower += Items.KEYBOARD.getAttackPower();
-                out.write(Items.KEYBOARD.getDescription()); //toDo
-                break;
+                return Items.KEYBOARD;
             case 5:
             case 6:
                 attackPower += Items.GARBAGE_BIN.getAttackPower();
-                out.write(Items.GARBAGE_BIN.getDescription()); //toDo
-                break;
+                return Items.GARBAGE_BIN;
             case 7:
                 attackPower += Items.TRANSISTOR.getAttackPower();
-                out.write(Items.TRANSISTOR.getDescription()); //toDo
-                break;
+                return Items.TRANSISTOR;
             case 8:
                 attackPower += Items.PENTIUM_2.getAttackPower();
-                out.write(Items.PENTIUM_2.getDescription()); //toDo
-                break;
+                return Items.PENTIUM_2;
             case 9:
             case 10:
-                out.write(name + " couldn't find anything...");
-                break;
+                return Items.NOTHING;
         }
+        return null;
     }
 
-    public int callRat() {
-        return rat.getRatAttackPower();
-    }
-
-    public void suffer(int damage) throws IOException {
+    public int suffer(int damage) throws IOException {
+        System.out.println("cheguei");
         if(healthPoints - damage <= 0) {
             setHealthPoints(0);
             isDead = true;
-            out.write(name + " is dead!");
-            return;
+            server.broadcast(name + " is dead!");
+            return 0;
         }
-        out.write(name + " have " + healthPoints + " healthpoints remaining!");
-        //toDo print healthpoints remaining
+        healthPoints -= damage;
+        System.out.println("cheguei 2");
+        server.broadcast(name + " have " + healthPoints + " healthpoints remaining!");
+
+        System.out.println("chguei 3");
+        return healthPoints;
+    }
+
+    public BufferedWriter getOut(){
+        return this.out;
+    }
+
+    public void setFullHealth() {
+        healthPoints = 10;
     }
 
     public void setAcceptedOffer() {
@@ -105,6 +112,17 @@ public class Player {
         this.healthPoints = healthPoints;
     }
 
+    public int getHealthPoints() {
+        return healthPoints;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public int getAttackPower() {
+        return attackPower;
+    }
 
     public static class Rat {
 
@@ -115,6 +133,7 @@ public class Player {
         //METHODS
         public Rat(String ratName) {
             this.ratName = ratName;
+            this.ratAttackPower = 1;
         }
 
         public int getRatAttackPower() {

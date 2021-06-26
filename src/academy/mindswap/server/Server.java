@@ -1,6 +1,8 @@
 package academy.mindswap.server;
 
 import academy.mindswap.client.Player;
+import academy.mindswap.enemies.Enemies;
+import academy.mindswap.items.Items;
 import academy.mindswap.server.commands.Command;
 import academy.mindswap.server.messages.Messages;
 
@@ -46,7 +48,7 @@ public class Server {
             send(Messages.ENTER_NAME);
             String name = in.readLine();
             send(Messages.WELCOME + name);
-            PlayerConnectionHandler playerConnectionHandler = new PlayerConnectionHandler(clientSocket, name);
+            PlayerConnectionHandler playerConnectionHandler = new PlayerConnectionHandler(clientSocket, name, this);
             service.submit(playerConnectionHandler);
             players.add(playerConnectionHandler);
             if (players.size() < 2) {
@@ -62,7 +64,7 @@ public class Server {
 
     public void beginGame(PlayerConnectionHandler playerConnectionHandler) {
 
-        game = new Game(playerConnectionHandler, this, playerConnectionHandler.player);
+        game = new Game(this, players.get(0), players.get(1));
         game.start();
     }
 
@@ -121,13 +123,14 @@ public class Server {
         private BufferedWriter out;
         private String message;
         private Player player;
+        private Enemies enemies;
 
-        public PlayerConnectionHandler(Socket clientSocket, String name) throws IOException {
+        public PlayerConnectionHandler(Socket clientSocket, String name, Server server) throws IOException {
             this.clientSocket = clientSocket;
             this.name = name;
             System.out.println(name);
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            this.player = new Player(name, out);
+            this.player = new Player(name, out, server);
         }
 
         @Override
@@ -142,9 +145,10 @@ public class Server {
 
                 while (!clientSocket.isClosed()) {
                     message = in.readLine();
-                    System.out.println("MESSAGE: " + message);
+
 
                     if (isCommand(message)) {
+
                         dealWithCommand(message);
                         continue;
                     }
@@ -165,7 +169,7 @@ public class Server {
         }
 
         private void dealWithCommand(String message) throws IOException {
-            String description = message.split(" ")[0];
+            String description = message.split(" ")[0].toLowerCase();
             Command command = Command.getCommandFromDescription(description);
 
             if (command == null) {
@@ -175,7 +179,7 @@ public class Server {
                 return;
             }
 
-            command.getHandler().execute(Server.this, this, player, game, players);
+            command.getHandler().execute(Server.this, this, game);
         }
 
         public void send(String message) {
@@ -202,6 +206,49 @@ public class Server {
 
         public String getMessage() {
             return message;
+        }
+
+        public boolean isDead(){
+            return player.isDead();
+        }
+
+        public int attack(){
+            return player.attack();
+        }
+
+        public int suffer() throws IOException {
+            System.out.println("cheguei mas antes");
+            int getEnemyAttackPower = enemies.getAttackPower();
+            System.out.println("cheguei aquiiiii" + getEnemyAttackPower);
+            return player.suffer(enemies.getAttackPower());
+        }
+
+        public void setAcceptedOffer(){
+            player.setAcceptedOffer();
+        }
+
+        public boolean getAcceptedOffer(){
+            return player.getAcceptedOffer();
+        }
+
+        public void setFullHealth(){
+            player.setFullHealth();
+        }
+
+        public Items searchItem() throws IOException {
+            return player.searchItem();
+        }
+
+        public BufferedWriter getOut(){
+            return player.getOut();
+        }
+
+        public Socket getClientSocket(){
+            return clientSocket;
+        }
+
+        public int getPlayerAttackPower() {
+            return player.getAttackPower();
         }
     }
 }

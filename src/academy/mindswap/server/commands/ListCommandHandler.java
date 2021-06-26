@@ -9,7 +9,7 @@ import java.util.List;
 public class ListCommandHandler implements CommandHandler{
 
     @Override
-    public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Player player, Game game, List<Server.PlayerConnectionHandler> players) {
+    public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Game game) {
         clientConnectionHandler.send(server.listCommands());
     }
 }

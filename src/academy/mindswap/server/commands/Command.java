@@ -12,7 +12,8 @@ public enum Command {
     LIST("/list", new ListCommandHandler()),
     QUIT("/quit", new QuitHandler()),
     YES("/yes", new YesHandler()),
-    NO("/no", new NoHandler());
+    NO("/no", new NoHandler()),
+    SURE("/sure", new SureHandler());
 
     private String description;
     private CommandHandler handler;

@@ -10,8 +10,7 @@ import java.util.List;
 public class NoHandler implements CommandHandler {
 
     @Override
-    public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Player player, Game game, List<Server.PlayerConnectionHandler> players) {
-        //clientConnectionHandler.send(server.listClients());
+    public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Game game) {        //clientConnectionHandler.send(server.listClients());
         clientConnectionHandler.send(Messages.YOU_SURE);
     }
 }

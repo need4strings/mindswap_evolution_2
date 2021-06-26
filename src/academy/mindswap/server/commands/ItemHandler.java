@@ -9,7 +9,6 @@ import java.util.List;
 public class ItemHandler implements CommandHandler {
 
     @Override
-    public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Player player, Game game, List<Server.PlayerConnectionHandler> players) {
-        //call player item method
+    public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Game game) {        //call player item method
     }
 }

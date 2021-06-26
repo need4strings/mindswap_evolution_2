@@ -21,10 +21,9 @@ public class Messages {
             "it's a super cramped space and you're always bumping elbows with %s";
     public static final String MEET_RAT = "The room is super dirty and you even find a mouse that you decide to make " +
             "your mascot. You named him Minder!";
-    public static final String WELCOME_RAT = "Great! You and %s have a new mascot named %s";
+    public static final String WELCOME_RAT = "Great! You have a new mascot named Minder";
     public static final String TAKE_BREAK = "You decide to take a break from your hard work making spaguetti code. You " +
-            "step outside in the alley and you spot an elevator. Do you go in? (/yes | /yes)";
-    public static final String GREAT_CHOICE = "Great choice!";
+            "step outside in the alley and you spot an elevator. You get in";
     public static final String ENTER_ELEVATOR_1 = "You enter the elevator and it suddenly starts going up. It reaches the " +
             "ground floor and the doors open. Who's on the other side?... \n MINDSCHOOLERS!";
     public static final String MINDSCHOOLERS_MOCKING = "They look at you funny... they start making memes about you... " +
@@ -34,7 +33,7 @@ public class Messages {
     public static final String DRINK_BEER = "It's friday so you drink a beer over your defeated enemies.";
     public static final String HP_FULL = "Your HP is restored!";
     public static final String ENTER_ELEVATOR_2 = "You go back in the elevator and start going up again. It reaches another floor" +
-            " and the doors open again. Are you scared? (/yes | /yes)";
+            " and the doors open again. Are you scared? (/sure | /sure)";
     public static final String TERESA_APPEARS = """
             Of couse you are dear noob :(
             %s is on the other side of the elevator doors!

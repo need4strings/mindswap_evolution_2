@@ -15,6 +15,11 @@ public abstract class Enemies {
     private BufferedWriter out;
 
     public Enemies(int healthPoints, int attackPower, int specialChance, String name, boolean isDead) {
+        this.healthPoints = healthPoints;
+        this.attackPower = attackPower;
+        this.specialChance = specialChance;
+        this.name = name;
+        this.isDead = isDead;
 
     }
 
@@ -34,7 +39,7 @@ public abstract class Enemies {
             out.write(name + " is dead!");
             return;
         }
-        //toDo print healthpoints remaining
+        healthPoints -= damage;
         out.write(name + " have " + healthPoints + " healthpoints remaining!");
     }
 
@@ -44,5 +49,13 @@ public abstract class Enemies {
 
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = healthPoints;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public int getAttackPower() {
+        return attackPower;
     }
 }
