@@ -56,6 +56,6 @@ public abstract class Enemies {
     }
 
     public int getAttackPower() {
-        return attackPower;
+        return this.attackPower;
     }
 }

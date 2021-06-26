@@ -46,7 +46,7 @@ public class Player {
     }
 
     public Items searchItem() throws IOException {
-        int chance = Utils.random(0, 10);
+        int chance = Utils.random(1, 10);
         System.out.println("chance" + chance);
         switch (chance) {
             case 1:
