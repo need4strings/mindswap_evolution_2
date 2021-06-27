@@ -14,7 +14,6 @@ public class Player {
     // PROPERTIES
     private int healthPoints;
     private int attackPower;
-    private int specialChance;
     private String name;
     private boolean isDead;
     private Server server;
@@ -30,7 +29,6 @@ public class Player {
     public Player(String name, BufferedWriter out, Server server) {
         this.healthPoints = 10;
         this.attackPower = 1;
-        this.specialChance = 2 * attackPower;
         this.name = name;
         this.isDead = false;
         this.server = server;
@@ -41,13 +39,13 @@ public class Player {
      * @return -> returns the attack damage the player is going to deal
      */
     public int attack() {
+        int specialChance = 2 * attackPower;
         int chance = Utils.random(1,3);
-        int attackValue = attackPower;
         if(chance == 1) {
-            attackValue = specialChance;
             server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + this.name + ThreadColor.ANSI_RESET);
+            return specialChance;
         }
-        return attackValue;
+        return attackPower;
     }
 
     /**

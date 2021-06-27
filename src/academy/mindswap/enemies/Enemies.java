@@ -9,7 +9,6 @@ public class Enemies {
 
     private int healthPoints;
     private int attackPower;
-    private int specialChance;
     private String name;
     private boolean isDead;
     private BufferedWriter out;
@@ -18,14 +17,12 @@ public class Enemies {
      * Constructor Method
      * @param healthPoints -> the health point the enemy has
      * @param attackPower -> the attack power the enemy has
-     * @param specialChance -> the special chance the enemy has
      * @param name -> the enemy's name
      * @param isDead -> dead enemy flag
      */
-    public Enemies(int healthPoints, int attackPower, int specialChance, String name, boolean isDead) {
+    public Enemies(int healthPoints, int attackPower, String name, boolean isDead) {
         this.healthPoints = healthPoints;
         this.attackPower = attackPower;
-        this.specialChance = specialChance * attackPower;
         this.name = name;
         this.isDead = isDead;
 
@@ -36,12 +33,12 @@ public class Enemies {
      * @return -> the amount of damage to be dealt
      */
     public int attack() {
+        int specialChance = 2 * attackPower;
         int chance = Utils.random(1,3);
-        int attackValue = attackPower;
         if(chance == 1) {
-            attackValue = specialChance;
+            return specialChance;
         }
-        return attackValue;
+        return attackPower;
     }
 
     /**

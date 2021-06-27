@@ -81,8 +81,9 @@ public class Game {
                 }
                 switch (player1Command) {
                     case "/attack":
-                        enemies.suffer(player1.attack());
-                        server.broadcast(ThreadColor.ANSI_GREEN + player1.getName() + " is attacking " + enemies.getName() + " and caused " + player1.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
+                        int attackPower = player1.attack();
+                        enemies.suffer(attackPower);
+                        server.broadcast(ThreadColor.ANSI_GREEN + player1.getName() + " is attacking " + enemies.getName() + " and caused " + attackPower + " damage" + ThreadColor.ANSI_RESET);
                         server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
                         break;
                     case "/item":
@@ -116,8 +117,9 @@ public class Game {
                 }
                 switch (player2Command) {
                     case "/attack":
-                        enemies.suffer(player2.attack());
-                        server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " is attacking " + enemies.getName() + " and caused " + player2.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
+                        int attackPower = player2.attack();
+                        enemies.suffer(attackPower);
+                        server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " is attacking " + enemies.getName() + " and caused " + attackPower + " damage" + ThreadColor.ANSI_RESET);
                         server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
                         break;
                     case "/item":
@@ -127,14 +129,14 @@ public class Game {
                         break;
                     case "/rat":
                         int chance = Utils.random(1,3);
-                        int attackpower = rat.getRatAttackPower();
+                        int ratAttackpower = rat.getRatAttackPower();
                         if(chance == 1) {
-                            attackpower *= 2;
-                            enemies.suffer(attackpower);
-                            server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + attackpower + " points of damage.." + ThreadColor.ANSI_RESET);
+                            ratAttackpower *= 2;
+                            enemies.suffer(ratAttackpower);
+                            server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + ratAttackpower + " points of damage.." + ThreadColor.ANSI_RESET);
                         } else {
-                            enemies.suffer(attackpower);
-                            server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + player2.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
+                            enemies.suffer(ratAttackpower);
+                            server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + ratAttackpower + " damage" + ThreadColor.ANSI_RESET);
                             server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
                         }
                         break;
@@ -145,7 +147,7 @@ public class Game {
             }
             if (enemies.isDead()) {
                 System.out.println("is dead");
-                server.broadcast(ThreadColor.ANSI_RED + enemies.getName() + " is dead!" + ThreadColor.ANSI_RESET);
+                server.broadcast(ThreadColor.ANSI_RED + enemies.getName() + " is dead!" + ThreadColor.ANSI_RESET + "\n");
                 finished = true;
                 continue;
                 //toDo
