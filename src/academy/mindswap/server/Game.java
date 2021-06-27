@@ -7,6 +7,7 @@ import academy.mindswap.enemies.Soraia;
 import academy.mindswap.enemies.Teresa;
 import academy.mindswap.items.Items;
 import academy.mindswap.server.messages.Messages;
+import academy.mindswap.utils.ThreadColor;
 import academy.mindswap.utils.Utils;
 
 import java.io.*;
@@ -36,8 +37,8 @@ public class Game {
     }
 
     public void start() {
-        server.broadcast(Messages.BEGIN);
-        server.broadcast(Messages.MINDERA_CALL);
+        server.broadcast(ThreadColor.ANSI_BLUE + Messages.BEGIN);
+        server.broadcast(ThreadColor.ANSI_GREEN + Messages.MINDERA_CALL);
         player1.getName(); //toDo
     }
 
