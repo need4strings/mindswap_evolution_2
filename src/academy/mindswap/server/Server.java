@@ -5,6 +5,7 @@ import academy.mindswap.enemies.Enemies;
 import academy.mindswap.items.Items;
 import academy.mindswap.server.commands.Command;
 import academy.mindswap.server.messages.Messages;
+import academy.mindswap.utils.ThreadColor;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -44,8 +45,8 @@ public class Server {
             Socket clientSocket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            send(Messages.OPENING_MESSAGE);
-            send(Messages.ENTER_NAME);
+            send(ThreadColor.ANSI_CYAN + Messages.OPENING_MESSAGE);
+            send(ThreadColor.ANSI_RESET + Messages.ENTER_NAME);
             String name = in.readLine();
             send(Messages.WELCOME + name);
             PlayerConnectionHandler playerConnectionHandler = new PlayerConnectionHandler(clientSocket, name, this);
@@ -56,7 +57,7 @@ public class Server {
             } else {
                 beginGame(playerConnectionHandler);
             }
-            broadcast(playerConnectionHandler.getName(), Messages.PLAYER_JOINED);
+            broadcast(ThreadColor.ANSI_GREEN + playerConnectionHandler.getName(), Messages.PLAYER_JOINED + ThreadColor.ANSI_RESET);
         }
 
     }

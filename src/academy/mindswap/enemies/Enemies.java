@@ -17,7 +17,7 @@ public class Enemies {
     public Enemies(int healthPoints, int attackPower, int specialChance, String name, boolean isDead) {
         this.healthPoints = healthPoints;
         this.attackPower = attackPower;
-        this.specialChance = specialChance;
+        this.specialChance = specialChance * attackPower;
         this.name = name;
         this.isDead = isDead;
 
