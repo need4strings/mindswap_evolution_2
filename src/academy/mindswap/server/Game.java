@@ -34,8 +34,6 @@ public class Game {
         this.server = server;
         this.player1 = player1;
         this.player2 = player2;
-        System.out.println("player1" + player1);
-        System.out.println("player2" + player2);
         this.rat = new Player.Rat("Minder");
         this.soraia = new Soraia();
         this.mindSchoolers = new MindSchoolers();
@@ -179,9 +177,6 @@ public class Game {
      * @throws IOException
      */
     public void storyLineHandler(String command, Server.PlayerConnectionHandler server) throws IOException {
-        //boolean playerAccepted = player.getAcceptedOffer();
-        //System.out.println(playerAccepted);
-
         switch (command) {
             case "yes":
                 server.broadcast(Messages.ARRIVE_MINDERA);

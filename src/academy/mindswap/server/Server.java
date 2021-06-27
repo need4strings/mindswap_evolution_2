@@ -168,7 +168,6 @@ public class Server {
         public PlayerConnectionHandler(Socket clientSocket, String name, Server server) throws IOException {
             this.clientSocket = clientSocket;
             this.name = name;
-            System.out.println(name);
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             this.player = new Player(name, out, server);
         }

@@ -30,8 +30,13 @@ public class PlayerLauncher {
         String line;
 
         while ((line = in.readLine()) != null) {
-            System.out.println(line);
-            Thread.sleep(2000);
+            if(line.equals("/list")) {
+                System.out.println(line);
+            } else {
+                System.out.println(line);
+                Thread.sleep(2000);
+            }
+
         }
 
         System.out.println("system down");
