@@ -69,7 +69,7 @@ public class Messages {
             You're overwhelmed with joy!""";
     public static final String GAME_OVER = "Yeahhhhhhhh, you lost. Go back down. GAME OVER!";
     public static final String CLIENT_ERROR = "Something went wrong with this client's connection. Error: ";
-    public static final String PLAYER_QUIT = "Player %s left the game!";
+    public static final String PLAYER_QUIT = " left the game!";
     public static final String SPECIAL_ATTACK = "CRITICAL HIT!!";
 
 }
