@@ -13,16 +13,28 @@ public enum Items {
     private int attackPower;
     private String description;
 
-
+    /**
+     * Constructor Method
+     * @param description -> item's description
+     * @param attackPower -> item's attack power
+     */
     Items(String description, int attackPower) {
         this.attackPower =  attackPower;
         this.description =  description;
     }
 
+    /**
+     * Get Attack Power - gets the item's attack power
+     * @return -> the item's attack power
+     */
     public int getAttackPower() {
         return attackPower;
     }
 
+    /**
+     * Get Description - gets the item's description
+     * @return -> the item's description
+     */
     public String getDescription() {
         return description;
     }

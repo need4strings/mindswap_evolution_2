@@ -16,8 +16,6 @@ public class Player {
     private int specialChance;
     private String name;
     private boolean isDead;
-    private boolean acceptedOffer;
-    private BufferedWriter out;
     private Server server;
 
     // METHODS
@@ -25,6 +23,8 @@ public class Player {
     /**
      * Constructor Method
      * @param name - the name that the user typed
+     * @param out - the buffered writer
+     * @param server - the server
      */
     public Player(String name, BufferedWriter out, Server server) {
         this.healthPoints = 10;
@@ -32,11 +32,13 @@ public class Player {
         this.specialChance = 2;
         this.name = name;
         this.isDead = false;
-        this.out = out;
-        this.acceptedOffer = false;
         this.server = server;
     }
 
+    /**
+     * Attack - deal with the attack mechanic. It has a special attack chance
+     * @return -> returns the attack damage the player is going to deal
+     */
     public int attack() {
         int chance = Utils.random(1,3);
         int attackValue = attackPower;
@@ -47,6 +49,11 @@ public class Player {
         return attackValue;
     }
 
+    /**
+     * Search Item - makes the player search for an item based on a random chance
+     * @return -> returns the item found
+     * @throws IOException
+     */
     public Items searchItem() throws IOException {
         int chance = Utils.random(1, 10);
         System.out.println("chance" + chance);
@@ -76,6 +83,12 @@ public class Player {
         return null;
     }
 
+    /**
+     * Suffer - deal with the suffering of damage
+     * @param damage -> the amount of damage to be suffered
+     * @return -> returns the remaining health points
+     * @throws IOException
+     */
     public int suffer(int damage) throws IOException {
         if(healthPoints - damage <= 0) {
             setHealthPoints(0);
@@ -89,36 +102,33 @@ public class Player {
         return healthPoints;
     }
 
-    public BufferedWriter getOut(){
-        return this.out;
-    }
-
+    /**
+     * Set Full Health - Sets the players health back to full
+     */
     public void setFullHealth() {
         healthPoints = 10;
     }
 
-    public void setAcceptedOffer() {
-
-        acceptedOffer = true;
-    } // toDo this
-
-
-    public boolean getAcceptedOffer() {
-        return acceptedOffer;
-    } // toDo this
-
+    /**
+     * Set Health Points - sets the players health points to a specific value
+     * @param healthPoints - the value of health points to be set
+     */
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = healthPoints;
     }
 
-    public int getHealthPoints() {
-        return healthPoints;
-    }
-
+    /**
+     * Is Dead - checks if the player is dead
+     * @return - true/false
+     */
     public boolean isDead() {
         return isDead;
     }
 
+    /**
+     * Get Attack Power - gets the players attack power
+     * @return -> players attack power
+     */
     public int getAttackPower() {
         return attackPower;
     }
@@ -130,23 +140,22 @@ public class Player {
         private String ratName;
 
         //METHODS
+
+        /**
+         * Constructor Method
+         * @param ratName - the name to be given to the rat
+         */
         public Rat(String ratName) {
             this.ratName = ratName;
             this.ratAttackPower = 1;
         }
 
+        /**
+         * Get Rat Attack Power - gets the rat's attack power
+         * @return -> the rat's attack power
+         */
         public int getRatAttackPower() {
             return ratAttackPower;
         }
-
-        public String getRatName() {
-            return ratName;
-        }
-
-        public void setRatName(String ratName) {
-            this.ratName = ratName;
-        }
-
-
     }
 }

@@ -11,7 +11,6 @@ public class YesHandler implements CommandHandler{
     @Override
     public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Game game) {
         clientConnectionHandler.broadcast(Messages.ACCEPT_OFFER);
-        //player.setAcceptedOffer();
         System.out.println(clientConnectionHandler.getName());
         try{
             game.storyLineHandler("yes", clientConnectionHandler);

@@ -14,6 +14,13 @@ public class PlayerLauncher {
         }
     }
 
+    /**
+     * Start - start's the client
+     * @param host -> the host (localhost)
+     * @param port -> the port to connect to
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void start(String host, int port) throws IOException, InterruptedException {
         Socket socket = new Socket(host, port);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -23,15 +30,6 @@ public class PlayerLauncher {
         String line;
 
         while ((line = in.readLine()) != null) {
-
-           /* char[] chars = line.toCharArray();
-
-            // Print a char from the array, then sleep for 1/10 second
-            for (int i = 0; i < chars.length; i++) {
-                System.out.print(chars[i]);
-                //out.newLine();
-                Thread.sleep(10);
-            }*/
             System.out.println(line);
             Thread.sleep(2000);
         }
