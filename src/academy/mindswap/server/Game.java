@@ -51,13 +51,14 @@ public class Game {
         BufferedReader in1 = new BufferedReader(new InputStreamReader(player1.getClientSocket().getInputStream()));
         BufferedReader in2 = new BufferedReader(new InputStreamReader(player2.getClientSocket().getInputStream()));
         while (!finished) {
-
-
-
             int playerToSuffer = Utils.random(1,2);
 
             if (!player1.isDead() && !enemies.isDead()) {
                 String player1Command = in1.readLine();
+                if(player1Command.equals("/list")) {
+                    player1.broadcast(server.listCommands());
+                    continue;
+                }
                 switch (player1Command) {
                     case "/attack":
                         enemies.suffer(player1.attack());
@@ -70,7 +71,17 @@ public class Game {
                                 foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower());
                         break;
                     case "/rat":
-                        enemies.suffer(rat.getRatAttackPower());
+                        int chance = Utils.random(1,3);
+                        int attackpower = rat.getRatAttackPower();
+                        if(chance == 1) {
+                            attackpower *= 2;
+                            enemies.suffer(attackpower);
+                            server.broadcast(Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + attackpower + " points of damage..");
+                        } else {
+                            enemies.suffer(attackpower);
+                            server.broadcast(player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + player2.getPlayerAttackPower() + " damage");
+                            server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
+                        }
                         break;
                     default:
                         player1.broadcast(Messages.INVALID_COMMAND);
@@ -79,6 +90,10 @@ public class Game {
             }
             if (!player2.isDead() && !enemies.isDead()) {
                 String player2Command = in2.readLine();
+                if(player2Command.equals("/list")) {
+                    player2.broadcast(server.listCommands());
+                    continue;
+                }
                 switch (player2Command) {
                     case "/attack":
                         enemies.suffer(player2.attack());
@@ -91,7 +106,17 @@ public class Game {
                                 foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower());
                         break;
                     case "/rat":
-                        enemies.suffer(rat.getRatAttackPower());
+                        int chance = Utils.random(1,3);
+                        int attackpower = rat.getRatAttackPower();
+                        if(chance == 1) {
+                            attackpower *= 2;
+                            enemies.suffer(attackpower);
+                            server.broadcast(Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + attackpower + " points of damage..");
+                        } else {
+                            enemies.suffer(attackpower);
+                            server.broadcast(player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + player2.getPlayerAttackPower() + " damage");
+                            server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
+                        }
                         break;
                     default:
                         player2.broadcast(Messages.INVALID_COMMAND);
@@ -120,6 +145,7 @@ public class Game {
             if(player1.isDead() || player2.isDead()) {
                 gameOver();
             }
+
             server.broadcast(Messages.WHAT_DO);
         }
     }
