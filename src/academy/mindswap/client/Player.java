@@ -3,6 +3,7 @@ package academy.mindswap.client;
 import academy.mindswap.items.Items;
 import academy.mindswap.server.Server;
 import academy.mindswap.server.messages.Messages;
+import academy.mindswap.utils.ThreadColor;
 import academy.mindswap.utils.Utils;
 
 import java.io.BufferedWriter;
@@ -29,7 +30,7 @@ public class Player {
     public Player(String name, BufferedWriter out, Server server) {
         this.healthPoints = 10;
         this.attackPower = 1;
-        this.specialChance = 2;
+        this.specialChance = 2 * attackPower;
         this.name = name;
         this.isDead = false;
         this.server = server;
@@ -44,7 +45,7 @@ public class Player {
         int attackValue = attackPower;
         if(chance == 1) {
             attackValue = specialChance;
-            server.broadcast(Messages.SPECIAL_ATTACK + " by " + this.name + " causing " + specialChance + " points of damage..");
+            server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + this.name + " causing " + specialChance + " points of damage!" + ThreadColor.ANSI_RESET);
         }
         return attackValue;
     }
@@ -97,7 +98,7 @@ public class Player {
             return 0;
         }
         healthPoints -= damage;
-        server.broadcast(name + " has suffered " + damage + " points of damage and now has " + healthPoints + " healthpoints remaining!");
+        server.broadcast(ThreadColor.ANSI_RED + name + " has suffered " + damage + " points of damage and now has " + healthPoints + " healthpoints remaining!" + ThreadColor.ANSI_RESET);
 
         return healthPoints;
     }

@@ -7,6 +7,7 @@ import academy.mindswap.enemies.Soraia;
 import academy.mindswap.enemies.Teresa;
 import academy.mindswap.items.Items;
 import academy.mindswap.server.messages.Messages;
+import academy.mindswap.utils.ThreadColor;
 import academy.mindswap.utils.Utils;
 
 import java.io.*;
@@ -70,26 +71,37 @@ public class Game {
         BufferedReader in1 = new BufferedReader(new InputStreamReader(player1.getClientSocket().getInputStream()));
         BufferedReader in2 = new BufferedReader(new InputStreamReader(player2.getClientSocket().getInputStream()));
         while (!finished) {
-
-
-
             int playerToSuffer = Utils.random(1,2);
 
             if (!player1.isDead() && !enemies.isDead()) {
                 String player1Command = in1.readLine();
+                if(player1Command.equals("/list")) {
+                    player1.broadcast(server.listCommands());
+                    continue;
+                }
                 switch (player1Command) {
                     case "/attack":
                         enemies.suffer(player1.attack());
-                        server.broadcast(player1.getName() + " is attacking " + enemies.getName() + " and caused " + player1.getPlayerAttackPower() + " damage");
+                        server.broadcast(ThreadColor.ANSI_GREEN + player1.getName() + " is attacking " + enemies.getName() + " and caused " + player1.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
                         server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
                         break;
                     case "/item":
                         Items foundItem = player1.searchItem();
-                        server.broadcast(player1.getName() + " has found " + foundItem.name() + ". " +
-                                foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower());
+                        server.broadcast(ThreadColor.ANSI_GREEN + player1.getName() + " has found " + foundItem.name() + ". " +
+                                foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower() + ThreadColor.ANSI_RESET);
                         break;
                     case "/rat":
-                        enemies.suffer(rat.getRatAttackPower());
+                        int chance = Utils.random(1,3);
+                        int attackpower = rat.getRatAttackPower();
+                        if(chance == 1) {
+                            attackpower *= 2;
+                            enemies.suffer(attackpower);
+                            server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + attackpower + " points of damage.." + ThreadColor.ANSI_RESET);
+                        } else {
+                            enemies.suffer(attackpower);
+                            server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + player2.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
+                            server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
+                        }
                         break;
                     default:
                         player1.broadcast(Messages.INVALID_COMMAND);
@@ -98,28 +110,42 @@ public class Game {
             }
             if (!player2.isDead() && !enemies.isDead()) {
                 String player2Command = in2.readLine();
+                if(player2Command.equals("/list")) {
+                    player2.broadcast(server.listCommands());
+                    continue;
+                }
                 switch (player2Command) {
                     case "/attack":
                         enemies.suffer(player2.attack());
-                        server.broadcast(player2.getName() + " is attacking " + enemies.getName() + " and caused " + player2.getPlayerAttackPower() + " damage");
+                        server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " is attacking " + enemies.getName() + " and caused " + player2.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
                         server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
                         break;
                     case "/item":
                         Items foundItem = player2.searchItem();
-                        server.broadcast(player2.getName() + " has found " + foundItem.name() + ". " +
-                                foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower());
+                        server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " has found " + foundItem.name() + ". " +
+                                foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower() + ThreadColor.ANSI_RESET);
                         break;
                     case "/rat":
-                        enemies.suffer(rat.getRatAttackPower());
+                        int chance = Utils.random(1,3);
+                        int attackpower = rat.getRatAttackPower();
+                        if(chance == 1) {
+                            attackpower *= 2;
+                            enemies.suffer(attackpower);
+                            server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + attackpower + " points of damage.." + ThreadColor.ANSI_RESET);
+                        } else {
+                            enemies.suffer(attackpower);
+                            server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + player2.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
+                            server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
+                        }
                         break;
                     default:
-                        player2.broadcast(Messages.INVALID_COMMAND);
+                        player2.broadcast(ThreadColor.ANSI_RED + Messages.INVALID_COMMAND + ThreadColor.ANSI_RESET);
                         break;//toDo
                 }
             }
             if (enemies.isDead()) {
                 System.out.println("is dead");
-                server.broadcast(enemies.getName() + " is dead!");
+                server.broadcast(ThreadColor.ANSI_RED + enemies.getName() + " is dead!" + ThreadColor.ANSI_RESET);
                 finished = true;
                 continue;
                 //toDo
@@ -139,7 +165,8 @@ public class Game {
             if(player1.isDead() || player2.isDead()) {
                 gameOver();
             }
-            server.broadcast(Messages.WHAT_DO);
+
+            server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
         }
     }
 
@@ -162,7 +189,7 @@ public class Game {
 
                 server.broadcast(Messages.ENTER_ELEVATOR_1);
                 server.broadcast(Messages.MINDSCHOOLERS_MOCKING);
-                server.broadcast(Messages.WHAT_DO);
+                server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
 
                 fightHandler(mindSchoolers, player1, player2); //toDO
                 server.broadcast(Messages.FIRST_FIGHT_WIN);
@@ -174,7 +201,7 @@ public class Game {
                 break;
             case "sure":
                 server.broadcast(Messages.TERESA_APPEARS);
-                server.broadcast(Messages.WHAT_DO);
+                server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
                 finished = false;
                 fightHandler(teresa, player1, player2); //toDo
                 server.broadcast(Messages.TERESA_WIN);
@@ -182,7 +209,7 @@ public class Game {
                 player2.setFullHealth();
                 server.broadcast(Messages.ENTER_ELEVATOR_3);
                 server.broadcast(Messages.SORAIA_APPEARS);
-                server.broadcast(Messages.WHAT_DO);
+                server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
                 finished = false;
                 fightHandler(soraia, player1, player2); //toDo
                 server.broadcast(Messages.SORAIA_WIN);
