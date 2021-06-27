@@ -14,7 +14,6 @@ import java.io.*;
 
 public class Game {
 
-    private BufferedWriter out;
     private Server server;
     private Server.PlayerConnectionHandler player1;
     private Server.PlayerConnectionHandler player2;
@@ -46,7 +45,7 @@ public class Game {
     public void start() {
         server.broadcast(Messages.BEGIN);
         server.broadcast(Messages.MINDERA_CALL);
-        player1.getName(); //toDo
+        player1.getName();
     }
 
     /**
@@ -78,21 +77,21 @@ public class Game {
                     continue;
                 }
                 switch (player1Command) {
-                    case "/attack":
+                    case "/attack" -> {
                         int attackPower = player1.attack();
                         enemies.suffer(attackPower);
                         server.broadcast(ThreadColor.ANSI_GREEN + player1.getName() + " is attacking " + enemies.getName() + " and caused " + attackPower + " damage" + ThreadColor.ANSI_RESET);
                         server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
-                        break;
-                    case "/item":
+                    }
+                    case "/item" -> {
                         Items foundItem = player1.searchItem();
                         server.broadcast(ThreadColor.ANSI_GREEN + player1.getName() + " has found " + foundItem.name() + ". " +
                                 foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower() + ThreadColor.ANSI_RESET);
-                        break;
-                    case "/rat":
-                        int chance = Utils.random(1,3);
+                    }
+                    case "/rat" -> {
+                        int chance = Utils.random(1, 3);
                         int attackpower = rat.getRatAttackPower();
-                        if(chance == 1) {
+                        if (chance == 1) {
                             attackpower *= 2;
                             enemies.suffer(attackpower);
                             server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + attackpower + " points of damage.." + ThreadColor.ANSI_RESET);
@@ -101,10 +100,8 @@ public class Game {
                             server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + player2.getPlayerAttackPower() + " damage" + ThreadColor.ANSI_RESET);
                             server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
                         }
-                        break;
-                    default:
-                        player1.broadcast(Messages.INVALID_COMMAND);
-                        break;//toDo
+                    }
+                    default -> player1.broadcast(Messages.INVALID_COMMAND);
                 }
             }
             if (!player2.isDead() && !enemies.isDead()) {
@@ -114,21 +111,21 @@ public class Game {
                     continue;
                 }
                 switch (player2Command) {
-                    case "/attack":
+                    case "/attack" -> {
                         int attackPower = player2.attack();
                         enemies.suffer(attackPower);
                         server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " is attacking " + enemies.getName() + " and caused " + attackPower + " damage" + ThreadColor.ANSI_RESET);
                         server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
-                        break;
-                    case "/item":
+                    }
+                    case "/item" -> {
                         Items foundItem = player2.searchItem();
                         server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " has found " + foundItem.name() + ". " +
                                 foundItem.getDescription() + "Incrementing the attack power by " + foundItem.getAttackPower() + ThreadColor.ANSI_RESET);
-                        break;
-                    case "/rat":
-                        int chance = Utils.random(1,3);
+                    }
+                    case "/rat" -> {
+                        int chance = Utils.random(1, 3);
                         int ratAttackpower = rat.getRatAttackPower();
-                        if(chance == 1) {
+                        if (chance == 1) {
                             ratAttackpower *= 2;
                             enemies.suffer(ratAttackpower);
                             server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + rat.getRatName() + " causing " + ratAttackpower + " points of damage.." + ThreadColor.ANSI_RESET);
@@ -137,10 +134,8 @@ public class Game {
                             server.broadcast(ThreadColor.ANSI_GREEN + player2.getName() + " uses his " + rat.getRatName() + " to attack " + enemies.getName() + " causing " + ratAttackpower + " damage" + ThreadColor.ANSI_RESET);
                             server.broadcast(enemies.getName() + " has " + enemies.getHealthPoints() + " healthpoints left.");
                         }
-                        break;
-                    default:
-                        player2.broadcast(ThreadColor.ANSI_RED + Messages.INVALID_COMMAND + ThreadColor.ANSI_RESET);
-                        break;//toDo
+                    }
+                    default -> player2.broadcast(ThreadColor.ANSI_RED + Messages.INVALID_COMMAND + ThreadColor.ANSI_RESET);
                 }
             }
             if (enemies.isDead()) {
@@ -148,10 +143,9 @@ public class Game {
                 server.broadcast(ThreadColor.ANSI_RED + enemies.getName() + " is dead!" + ThreadColor.ANSI_RESET + "\n");
                 finished = true;
                 continue;
-                //toDo
             }
             if (player1.isDead() && player2.isDead()) {
-                gameOver(); //toDo
+                gameOver();
                 finished = true;
                 return;
             }
@@ -178,43 +172,90 @@ public class Game {
      */
     public void storyLineHandler(String command, Server.PlayerConnectionHandler server) throws IOException {
         switch (command) {
-            case "yes":
-                server.broadcast(Messages.ARRIVE_MINDERA);
-                server.broadcast(Messages.MEET_RAT);
-                server.broadcast(Messages.WELCOME_RAT);
-                server.broadcast(Messages.TAKE_BREAK);
-
-                server.broadcast(Messages.ENTER_ELEVATOR_1);
-                server.broadcast(Messages.MINDSCHOOLERS_MOCKING);
-                server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
-                server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
-
-                fightHandler(mindSchoolers, player1, player2); //toDO
-                server.broadcast(Messages.FIRST_FIGHT_WIN);
-                server.broadcast(Messages.DRINK_BEER);
-                player1.setFullHealth();
-                player2.setFullHealth();
-                server.broadcast(Messages.HP_FULL);
-                server.broadcast(Messages.ENTER_ELEVATOR_2);
-                break;
-            case "sure":
-                server.broadcast(Messages.TERESA_APPEARS);
-                server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
-                server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
-                finished = false;
-                fightHandler(teresa, player1, player2); //toDo
-                server.broadcast(Messages.TERESA_WIN);
-                player1.setFullHealth();
-                player2.setFullHealth();
-                server.broadcast(Messages.ENTER_ELEVATOR_3);
-                server.broadcast(Messages.SORAIA_APPEARS);
-                server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
-                server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
-                finished = false;
-                fightHandler(soraia, player1, player2); //toDo
-                server.broadcast(Messages.SORAIA_WIN);
-                player2.close();
-                player1.close();
+            case "yes" -> {
+                firstActEvents(server);
+                fightHandler(mindSchoolers, player1, player2);
+                firstActWin(server);
+            }
+            case "sure" -> {
+                secondActEvents(server);
+                fightHandler(teresa, player1, player2);
+                secondActWin(server);
+                thirdActEvents(server);
+                fightHandler(soraia, player1, player2);
+                thirdActWin(server);
+            }
         }
+    }
+
+    /**
+     * First Act Events - handles the events of the first act
+     * @param server -> the server
+     */
+    public void firstActEvents(Server.PlayerConnectionHandler server) {
+        server.broadcast(Messages.ARRIVE_MINDERA);
+        server.broadcast(Messages.MEET_RAT);
+        server.broadcast(Messages.WELCOME_RAT);
+        server.broadcast(Messages.TAKE_BREAK);
+        server.broadcast(Messages.ENTER_ELEVATOR_1);
+        server.broadcast(Messages.MINDSCHOOLERS_MOCKING);
+        server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
+        server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
+    }
+
+    /**
+     * First Act Win - handles the events of the first act in case of a win
+     * @param server -> the server
+     */
+    public void firstActWin(Server.PlayerConnectionHandler server) {
+        server.broadcast(Messages.FIRST_FIGHT_WIN);
+        server.broadcast(Messages.DRINK_BEER);
+        player1.setFullHealth();
+        player2.setFullHealth();
+        server.broadcast(Messages.HP_FULL);
+        server.broadcast(Messages.ENTER_ELEVATOR_2);
+    }
+
+    /**
+     * Second Act Events - handles the events of the second act
+     * @param server -> the server
+     */
+    private void secondActEvents(Server.PlayerConnectionHandler server) {
+        server.broadcast(Messages.TERESA_APPEARS);
+        server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
+        server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
+        finished = false;
+    }
+
+    /**
+     * Second Act Win - handles the events of the second act in case of a win
+     * @param server -> the server
+     */
+    private void secondActWin(Server.PlayerConnectionHandler server) {
+        server.broadcast(Messages.TERESA_WIN);
+        player1.setFullHealth();
+        player2.setFullHealth();
+        server.broadcast(Messages.ENTER_ELEVATOR_3);
+    }
+
+    /**
+     * Third Act Events - handles the events of the third act
+     * @param server -> the server
+     */
+    public void thirdActEvents(Server.PlayerConnectionHandler server) {
+        server.broadcast(Messages.SORAIA_APPEARS);
+        server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
+        server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
+        finished = false;
+    }
+
+    /**
+     * Third Act Events - handles the events of the third act in case of a win
+     * @param server -> the server
+     */
+    public void thirdActWin(Server.PlayerConnectionHandler server) {
+        server.broadcast(Messages.SORAIA_WIN);
+        player2.close();
+        player1.close();
     }
 }

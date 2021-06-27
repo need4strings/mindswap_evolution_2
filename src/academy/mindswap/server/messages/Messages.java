@@ -7,7 +7,6 @@ public class Messages {
     public static final String WELCOME = "\nWelcome, ";
     public static final String INVALID_COMMAND = "⚠ Invalid Command ⚠";
     public static final String WAITING_FOR_PLAYERS = "Please wait for more players to join\n";
-    public static final String PLAYER_JOINED = "Hello! I joined your game!";
     public static final String BEGIN = "\nLet's start your journey";
     public static final String MINDERA_CALL = """
             \nYou get a call from Mindera offering you an internship. They don't have space 

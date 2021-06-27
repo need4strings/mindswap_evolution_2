@@ -39,7 +39,7 @@ public class PlayerLauncher {
 
         }
 
-        System.out.println("system down");
+        System.out.println("Goodbye!");
         System.exit(0);
     }
 

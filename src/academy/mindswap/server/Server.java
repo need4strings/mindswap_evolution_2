@@ -22,7 +22,6 @@ public class Server {
     private ExecutorService service;
     private final List<PlayerConnectionHandler> players;
     private BufferedWriter out;
-    private int connectionCounter = 0;
     private Game game;
 
     public Server() {
@@ -39,7 +38,6 @@ public class Server {
         service = Executors.newCachedThreadPool();
 
         while (players.size() < 2) {
-            //playerConnectionHandler.send(Messages.ENTER_NAME);
             acceptConnection();
         }
     }
@@ -65,7 +63,6 @@ public class Server {
             } else {
                 beginGame();
             }
-            broadcast(ThreadColor.ANSI_GREEN + playerConnectionHandler.getName(), Messages.PLAYER_JOINED + ThreadColor.ANSI_RESET);
         }
 
     }
@@ -74,7 +71,6 @@ public class Server {
      * Begin Game - instantiates the game and starts it
      */
     public void beginGame() {
-
         game = new Game(this, players.get(0), players.get(1));
         game.start();
     }
@@ -132,7 +128,6 @@ public class Server {
      * @return -> returns a string with all commands
      */
     public synchronized String listCommands() {
-        StringBuffer buffer = new StringBuffer();
         ArrayList<String> commands = Command.getAllCommands();
         String commandList = "";
         for (String s : commands) {
@@ -156,7 +151,6 @@ public class Server {
         private BufferedWriter out;
         private String message;
         private Player player;
-        private Enemies enemies;
 
         /**
          * Constructor Method

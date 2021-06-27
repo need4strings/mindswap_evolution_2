@@ -1,7 +1,5 @@
 package academy.mindswap.enemies;
 
-import java.io.BufferedWriter;
-
 public class Soraia extends Enemies {
 
     public Soraia (){

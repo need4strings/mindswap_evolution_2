@@ -53,7 +53,7 @@ public class Player {
      * @return -> returns the item found
      * @throws IOException
      */
-    public Items searchItem() throws IOException {
+    public Items searchItem() {
         int chance = Utils.random(1, 10);
         System.out.println("chance" + chance);
         switch (chance) {

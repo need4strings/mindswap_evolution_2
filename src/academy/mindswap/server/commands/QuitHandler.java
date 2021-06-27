@@ -1,11 +1,8 @@
 package academy.mindswap.server.commands;
 
-import academy.mindswap.client.Player;
 import academy.mindswap.server.Game;
 import academy.mindswap.server.Server;
 import academy.mindswap.server.messages.Messages;
-
-import java.util.List;
 
 public class QuitHandler implements CommandHandler {
 

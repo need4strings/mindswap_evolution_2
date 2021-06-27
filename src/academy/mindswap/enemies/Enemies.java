@@ -1,17 +1,11 @@
 package academy.mindswap.enemies;
 
-import academy.mindswap.utils.Utils;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-
 public class Enemies {
 
     private int healthPoints;
     private int attackPower;
     private String name;
     private boolean isDead;
-    private BufferedWriter out;
 
     /**
      * Constructor Method
@@ -29,30 +23,14 @@ public class Enemies {
     }
 
     /**
-     * Attack - enemy's attack method
-     * @return -> the amount of damage to be dealt
-     */
-    public int attack() {
-        int specialChance = 2 * attackPower;
-        int chance = Utils.random(1,3);
-        if(chance == 1) {
-            return specialChance;
-        }
-        return attackPower;
-    }
-
-    /**
      * Suffer - enemy's suffer method
      * @param damage -> the amount of damage to be suffered
-     * @throws IOException
      */
-    public void suffer(int damage) throws IOException {
+    public void suffer(int damage) {
 
         if(healthPoints - damage <= 0) {
-            System.out.println("Companhia");
             setHealthPoints(0);
             this.isDead = true;
-            System.out.println("is dead " + this.isDead);
             return;
         }
 
