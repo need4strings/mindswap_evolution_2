@@ -49,7 +49,6 @@ public class Enemies {
     public void suffer(int damage) throws IOException {
 
         if(healthPoints - damage <= 0) {
-            System.out.println("Companhia");
             setHealthPoints(0);
             this.isDead = true;
             System.out.println("is dead " + this.isDead);

@@ -144,7 +144,6 @@ public class Game {
                 }
             }
             if (enemies.isDead()) {
-                System.out.println("is dead");
                 server.broadcast(ThreadColor.ANSI_RED + enemies.getName() + " is dead!" + ThreadColor.ANSI_RESET + "\n");
                 finished = true;
                 continue;

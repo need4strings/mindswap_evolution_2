@@ -2,7 +2,6 @@ package academy.mindswap.server.commands;
 
 import academy.mindswap.server.Game;
 import academy.mindswap.server.Server;
-import academy.mindswap.server.messages.Messages;
 
 import java.io.IOException;
 
