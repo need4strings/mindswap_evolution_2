@@ -23,10 +23,9 @@ public class Player {
     /**
      * Constructor Method
      * @param name - the name that the user typed
-     * @param out - the buffered writer
      * @param server - the server
      */
-    public Player(String name, BufferedWriter out, Server server) {
+    public Player(String name, Server server) {
         this.healthPoints = 10;
         this.attackPower = 1;
         this.name = name;

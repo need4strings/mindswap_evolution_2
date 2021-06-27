@@ -11,7 +11,6 @@ public class Enemies {
     private int attackPower;
     private String name;
     private boolean isDead;
-    private BufferedWriter out;
 
     /**
      * Constructor Method
@@ -26,19 +25,6 @@ public class Enemies {
         this.name = name;
         this.isDead = isDead;
 
-    }
-
-    /**
-     * Attack - enemy's attack method
-     * @return -> the amount of damage to be dealt
-     */
-    public int attack() {
-        int specialChance = 2 * attackPower;
-        int chance = Utils.random(1,3);
-        if(chance == 1) {
-            return specialChance;
-        }
-        return attackPower;
     }
 
     /**

@@ -22,7 +22,6 @@ public class Server {
     private ExecutorService service;
     private final List<PlayerConnectionHandler> players;
     private BufferedWriter out;
-    private int connectionCounter = 0;
     private Game game;
 
     public Server() {
@@ -39,7 +38,6 @@ public class Server {
         service = Executors.newCachedThreadPool();
 
         while (players.size() < 2) {
-            //playerConnectionHandler.send(Messages.ENTER_NAME);
             acceptConnection();
         }
     }
@@ -53,28 +51,48 @@ public class Server {
             Socket clientSocket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            send(ThreadColor.ANSI_CYAN + Messages.OPENING_MESSAGE);
-            send(ThreadColor.ANSI_RESET + Messages.ENTER_NAME);
+            openingMessages();
             String name = in.readLine();
             send(Messages.WELCOME + name);
-            PlayerConnectionHandler playerConnectionHandler = new PlayerConnectionHandler(clientSocket, name, this);
-            service.submit(playerConnectionHandler);
-            players.add(playerConnectionHandler);
+            PlayerConnectionHandler playerConnectionHandler = handlePlayerConnection(clientSocket, name, this);
             if (players.size() < 2) {
                 send(Messages.WAITING_FOR_PLAYERS);
             } else {
                 beginGame();
             }
-            broadcast(ThreadColor.ANSI_GREEN + playerConnectionHandler.getName(), Messages.PLAYER_JOINED + ThreadColor.ANSI_RESET);
+            broadcast((ThreadColor.ANSI_GREEN + playerConnectionHandler.getName()), (Messages.PLAYER_JOINED + ThreadColor.ANSI_RESET));
         }
 
+    }
+
+    /**
+     * Handle Player Connection - handles player's connection
+     * @param clientSocket -> the socket created
+     * @param name -> the player's name
+     * @param server -> the server itself
+     * @return -> the player connection
+     * @throws IOException
+     */
+    public PlayerConnectionHandler handlePlayerConnection(Socket clientSocket, String name, Server server) throws IOException {
+        PlayerConnectionHandler playerConnectionHandler = new PlayerConnectionHandler(clientSocket, name, server);
+        service.submit(playerConnectionHandler);
+        players.add(playerConnectionHandler);
+
+        return playerConnectionHandler;
+    }
+
+    /**
+     * Opening Messages - displays opening messages
+     */
+    public void openingMessages() {
+        send(ThreadColor.ANSI_CYAN + Messages.OPENING_MESSAGE);
+        send(ThreadColor.ANSI_RESET + Messages.ENTER_NAME);
     }
 
     /**
      * Begin Game - instantiates the game and starts it
      */
     public void beginGame() {
-
         game = new Game(this, players.get(0), players.get(1));
         game.start();
     }
@@ -132,7 +150,6 @@ public class Server {
      * @return -> returns a string with all commands
      */
     public synchronized String listCommands() {
-        StringBuffer buffer = new StringBuffer();
         ArrayList<String> commands = Command.getAllCommands();
         String commandList = "";
         for (String s : commands) {
@@ -151,12 +168,10 @@ public class Server {
 
     public class PlayerConnectionHandler implements Runnable {
 
-        private String name;
-        private Socket clientSocket;
-        private BufferedWriter out;
-        private String message;
-        private Player player;
-        private Enemies enemies;
+        private final String name;
+        private final Socket clientSocket;
+        private final BufferedWriter out;
+        private final Player player;
 
         /**
          * Constructor Method
@@ -169,7 +184,7 @@ public class Server {
             this.clientSocket = clientSocket;
             this.name = name;
             this.out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            this.player = new Player(name, out, server);
+            this.player = new Player(name, server);
         }
 
         /**
@@ -184,7 +199,7 @@ public class Server {
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 while (!clientSocket.isClosed()) {
-                    message = in.readLine();
+                    String message = in.readLine();
 
 
                     if (isCommand(message)) {
@@ -261,7 +276,7 @@ public class Server {
          * @return -> the player's name
          */
         public String getName() {
-            return name;
+            return this.name;
         }
 
         /**
