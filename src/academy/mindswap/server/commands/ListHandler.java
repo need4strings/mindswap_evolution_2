@@ -7,6 +7,6 @@ public class ListHandler implements CommandHandler {
 
     @Override
     public void execute(Server server, Server.PlayerConnectionHandler clientConnectionHandler, Game game) {
-        clientConnectionHandler.broadcast(server.listClients());
+        clientConnectionHandler.broadcast(server.listPlayers());
     }
 }

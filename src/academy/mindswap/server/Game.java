@@ -23,6 +23,12 @@ public class Game {
     private Player.Rat rat;
     private volatile boolean finished;
 
+    /**
+     * Game constructor method
+     * @param server -> the server
+     * @param player1 -> player 1's connection
+     * @param player2 -> player 2's connection
+     */
     public Game(Server server, Server.PlayerConnectionHandler player1, Server.PlayerConnectionHandler player2) {
         this.server = server;
         this.player1 = player1;
@@ -35,18 +41,31 @@ public class Game {
         this.teresa = new Teresa();
     }
 
+    /**
+     * Start - broadcasts the starting messages
+     */
     public void start() {
         server.broadcast(Messages.BEGIN);
         server.broadcast(Messages.MINDERA_CALL);
         player1.getName(); //toDo
     }
 
+    /**
+     * Game Over - broadcasts the game over messages and closes both players sockets
+     */
     public void gameOver() {
         server.broadcast(Messages.GAME_OVER);
         player1.close();
         player2.close();
     }
 
+    /**
+     * Fight Handler - handles the mechanics for all fights
+     * @param enemies -> the enemy to fight
+     * @param player1 -> player 1's connection
+     * @param player2 -> player 2's connection
+     * @throws IOException
+     */
     public synchronized void fightHandler(Enemies enemies, Server.PlayerConnectionHandler player1, Server.PlayerConnectionHandler player2) throws IOException {
         BufferedReader in1 = new BufferedReader(new InputStreamReader(player1.getClientSocket().getInputStream()));
         BufferedReader in2 = new BufferedReader(new InputStreamReader(player2.getClientSocket().getInputStream()));
@@ -124,6 +143,12 @@ public class Game {
         }
     }
 
+    /**
+     * Storyline Handler - handles the progression of the story based on the input from the player
+     * @param command -> the command the player selected
+     * @param server -> the server
+     * @throws IOException
+     */
     public void storyLineHandler(String command, Server.PlayerConnectionHandler server) throws IOException {
         //boolean playerAccepted = player.getAcceptedOffer();
         //System.out.println(playerAccepted);
