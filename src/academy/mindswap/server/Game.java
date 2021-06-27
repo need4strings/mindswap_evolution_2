@@ -218,6 +218,8 @@ public class Game {
                 finished = false;
                 fightHandler(soraia, player1, player2); //toDo
                 server.broadcast(Messages.SORAIA_WIN);
+                player2.close();
+                player1.close();
         }
     }
 }
