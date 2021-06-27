@@ -158,5 +158,13 @@ public class Player {
         public int getRatAttackPower() {
             return ratAttackPower;
         }
+
+        /**
+         * Get Rat Name - gets the rat's name
+         * @return -> the rat's name
+         */
+        public String getRatName() {
+            return ratName;
+        }
     }
 }
