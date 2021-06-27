@@ -30,8 +30,8 @@ public class Messages {
             You enter the elevator and it suddenly starts going up.
             It reaches the ground floor and the doors open. Who's on the other side?...MINDSCHOOLERS!""";
     public static final String MINDSCHOOLERS_MOCKING = """
-            They look at you funny... they start making memes about you...they start mocking you...
-            A FIGHT BREAKS OUT!""";
+            They look at you funny... they start making memes about you...they start mocking you...""";
+    public static final String FIGHT_BREAKS_OUT = "A FIGHT BREAKS OUT!";
     public static final String WHAT_DO = "What do you do? (/list to access command list)";
     public static final String FIRST_FIGHT_WIN = "They are so weak, you win with ease! Congratulations!";
     public static final String DRINK_BEER = "It's friday so you drink a beer over your defeated enemies.";
@@ -43,8 +43,7 @@ public class Messages {
     public static final String TERESA_APPEARS = """
             Of course you are dear noob :(
             Teresa is on the other side of the elevator doors!
-            Teresa: What are you doing here? You should be in the basement writing buggy code...
-            A FIGHT BREAKS OUT!""";
+            Teresa: What are you doing here? You should be in the basement writing buggy code...""";
     public static final String TERESA_WIN = """
             It was hard but you finally beat Teresa! Congratulations!
             To celebrate, you take a 10 minute coffee break.
@@ -57,8 +56,7 @@ public class Messages {
             Finally it reaches it's destination and you're eager to see who's on the other side!
             It's Soraia, the boss! She's busy correcting your buggy spaguetti code, she seems pissed!
             In your head you hear: Danger ⚠ Danger ⚠ Danger ⚠
-            Soraia turns to you and says: I'm sick of your lazy code, LET'S GET READY TO RUMBLEEEEE!!!
-            A FIGHT BREAKS OUT""";
+            Soraia turns to you and says: I'm sick of your lazy code, LET'S GET READY TO RUMBLEEEEE!!!""";
     public static final String SORAIA_WIN = """
             You can't believe it! You beat the boss, your code is now elite!
             You try to crawl back into the elevator, you're injured, tired, sweaty, you look like Rocky Balboa.

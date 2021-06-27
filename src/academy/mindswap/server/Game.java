@@ -189,6 +189,7 @@ public class Game {
 
                 server.broadcast(Messages.ENTER_ELEVATOR_1);
                 server.broadcast(Messages.MINDSCHOOLERS_MOCKING);
+                server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
                 server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
 
                 fightHandler(mindSchoolers, player1, player2); //toDO
@@ -201,6 +202,7 @@ public class Game {
                 break;
             case "sure":
                 server.broadcast(Messages.TERESA_APPEARS);
+                server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
                 server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
                 finished = false;
                 fightHandler(teresa, player1, player2); //toDo
@@ -209,12 +211,11 @@ public class Game {
                 player2.setFullHealth();
                 server.broadcast(Messages.ENTER_ELEVATOR_3);
                 server.broadcast(Messages.SORAIA_APPEARS);
+                server.broadcast(ThreadColor.ANSI_RED + Messages.FIGHT_BREAKS_OUT + ThreadColor.ANSI_RESET);
                 server.broadcast(ThreadColor.ANSI_PURPLE + Messages.WHAT_DO + ThreadColor.ANSI_RESET);
                 finished = false;
                 fightHandler(soraia, player1, player2); //toDo
                 server.broadcast(Messages.SORAIA_WIN);
-            default:
-                server.broadcast("IMPRIMIR OUTRA CENA");
         }
     }
 }

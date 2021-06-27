@@ -45,7 +45,7 @@ public class Player {
         int attackValue = attackPower;
         if(chance == 1) {
             attackValue = specialChance;
-            server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + this.name + " causing " + specialChance + " points of damage!" + ThreadColor.ANSI_RESET);
+            server.broadcast(ThreadColor.ANSI_YELLOW + Messages.SPECIAL_ATTACK + " by " + this.name + ThreadColor.ANSI_RESET);
         }
         return attackValue;
     }
@@ -94,7 +94,7 @@ public class Player {
         if(healthPoints - damage <= 0) {
             setHealthPoints(0);
             isDead = true;
-            server.broadcast(name + " is dead!");
+            server.broadcast(ThreadColor.ANSI_RED + name + " is dead!" + ThreadColor.ANSI_RESET);
             return 0;
         }
         healthPoints -= damage;
